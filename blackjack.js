@@ -287,3 +287,24 @@ function updateCurrentBetDisplay() {
     document.getElementById('current-bet').textContent = `Current Bet: $${playerBet}`;
 }
 
+// Function to open the strategy modal and display an image
+function showBlackjackBook() {
+    const strategyImageUrl = "book.png"; // Replace with the path to your image file
+    document.getElementById('strategy-image').src = strategyImageUrl; // Set the image source
+    document.getElementById('blackjack-modal').style.display = "block"; // Show the modal
+}
+
+// Close the modal when the user clicks the close button
+document.getElementById('close-modal').addEventListener('click', function() {
+    document.getElementById('blackjack-modal').style.display = "none"; // Close the modal
+});
+
+// Close the modal if the user clicks anywhere outside of the modal content
+window.addEventListener('click', function(event) {
+    if (event.target === document.getElementById('blackjack-modal')) {
+        document.getElementById('blackjack-modal').style.display = "none"; // Close modal
+    }
+});
+
+document.getElementById('open-strategy-button').addEventListener('click', showBlackjackBook);
+
