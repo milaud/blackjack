@@ -87,6 +87,12 @@
             border-radius: 50%;
         }
 
+        .betting-buttons button.highlighted {
+            background-color: #ffdf47; /* Yellow color for highlight */
+            color: #000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
         .hidden-card {
             background-color: #ccc;
             width: 60px;
@@ -187,13 +193,18 @@
 </div>
 
 <!-- Betting Phase -->
-<div class="betting-buttons">
-    <button id="bet-1">Bet 1</button>
-    <button id="bet-5">Bet 5</button>
-    <button id="bet-10">Bet 10</button>
-    <button id="bet-25">Bet 25</button>
-    <button id="bet-50">Bet 50</button>
-    <button id="bet-100">Bet 100</button>
+ <div class="betting-div">
+    <button id="add-bet">+</button>
+    <button id="subtract-bet">-</button>
+    <div class="betting-buttons">
+        <button id="bet-1">$1</button>
+        <button id="bet-5">$5</button>
+        <button id="bet-10">$10</button>
+        <button id="bet-25">$25</button>
+        <button id="bet-50">$50</button>
+        <button id="bet-100">$100</button>
+    </div>
+    <button id="clear-bet-button">Clear Bet</button>
 </div>
 
 <button id="confirm-bet-button">Deal</button>
