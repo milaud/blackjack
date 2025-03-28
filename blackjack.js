@@ -4,6 +4,7 @@ let dealerHand = [];
 let playerScore = 0;
 let dealerScore = 0;
 let gameOver = false;
+let playerResult = 0; // -1 lose, 0 tie, 1 win
 let selectedBetAmount = 0;
 let playerBet = 0;
 let playerTotalScore = 0;
@@ -45,6 +46,7 @@ function startGame() {
 // Reset game variables
 function resetGame() {
     gameOver = false;
+    playerResult = 0;
     playerHand = [];
     dealerHand = [];
     playerScore = 0;
@@ -52,6 +54,7 @@ function resetGame() {
     showDealerScore = false;
 
     document.getElementById('status').textContent = '';
+    document.getElementById('status').style.color = "black";
     document.getElementById('player-cards').innerHTML = '';
     document.getElementById('dealer-cards').innerHTML = '';
     document.getElementById('player-score').textContent = '';
@@ -208,15 +211,26 @@ async function doubleDown() {
 function determineWinner() {
     if (dealerScore > 21) {
         document.getElementById('status').textContent = "Dealer Bust! You win.";
+        playerResult = -1;
         playerTotalScore += playerBet;
     } else if (playerScore > dealerScore) {
         document.getElementById('status').textContent = "You win!";
+        playerResult = 1;
         playerTotalScore += playerBet;
     } else if (playerScore < dealerScore) {
         document.getElementById('status').textContent = "You lose.";
+        playerResult = -1;
         playerTotalScore -= playerBet;
     } else {
         document.getElementById('status').textContent = "It's a tie!";
+        playerResult = 0;
+    }
+    if (playerResult == 0) {
+        document.getElementById('status').style.color = "yellow";
+    } else if (playerResult == -1) {
+        document.getElementById('status').style.color = "red";
+    } else {
+        document.getElementById('status').style.color = "green";
     }
 
     document.getElementById('total-winnings').textContent = `Total winnings: $${playerTotalScore}`;
@@ -263,7 +277,7 @@ function modifyBet(action) {
 
 // Set bet amount
 function setBetAmount(button) {
-    selectedBetAmount = parseInt(button.textContent.split('$')[1]);
+    selectedBetAmount = parseInt(button.value);
     highlightBetButton(button);
 }
 
