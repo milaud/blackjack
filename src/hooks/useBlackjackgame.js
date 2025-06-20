@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createShoe } from '../components/Shoe/Shoe';
 import { calculateHandValue } from '../utils/gameLogic';
 import { getCardCountValue } from '../utils/helpers';
 
 export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet, setPlayerMoney, setPlayerBet) {
     const [shoe, setShoe] = useState(createShoe(numberOfDecks));
-    const [playerHands, setPlayerHands] = useState([{ cards: [], bet: 0 }]);
+    const [playerHands, setPlayerHands] = useState([{ cards: [], bet: 0, status: 0 }]);
     const [activeHandIndex, setActiveHandIndex] = useState(0);
     const [dealerHand, setDealerHand] = useState([]);
     const [gamePhase, setGamePhase] = useState('start');
@@ -16,6 +16,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
     const [countCards, setCountCards] = useState(false);
     const [runningCount, setRunningCount] = useState(0);
     const [showBook, setShowBook] = useState(false);
+    const [deckCleared, setDeckCleared] = useState(false);
 
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     const duration = 850;
@@ -38,29 +39,58 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         }
     };
 
+    /*
+    const updateBet = (index, newBet) => {
+        setPlayerHands(hands => {
+            hands.map((hand, i) => {
+                i === index ? {...hand.cards, bet: newBet } : hand
+            })
+        })
+    }
+
+    const updateStatus = (index, newStatus) => {
+        setPlayerHands(hands => {
+            hands.map((hand, i) => {
+                i === index ? {...hand.cards, status: newStatus } : hand
+            })
+        })
+    }
+
+    // combine the above two?
+    // updatePlayerHand(0, { bet: 100, status: 1 });
+    const updatePlayerHand = (index, updates) => {
+        setPlayerHands(prev =>
+            prev.map((player, i) =>
+                i === index ? { ...player, ...updates } : player
+            )
+        );
+    };
+    */
+    
+
     const checkInitialBlackjack = (playerHandObj, newDealerHand) => {
         const playerTotal = calculateHandValue(playerHandObj.cards);
         const dealerTotal = calculateHandValue(newDealerHand);
         let result = {};
-        let netPayout = 0;
 
         if (playerTotal === 21 || dealerTotal === 21) {
             showDealerCardUtil(true, newDealerHand[0]);
             if (playerTotal === 21 && dealerTotal === 21) {
                 result = { message: 'Push! Both have Blackjack.', color: 0 };
-                netPayout = playerHandObj.bet;
+                playerHandObj.status = 0;
             } else if (playerTotal === 21) {
                 result = { message: 'Blackjack! Player wins!', color: 1 };
+                playerHandObj.status = 1;
                 setPlayerWins(prev => prev + 1);
-                netPayout = playerHandObj.bet * 2.5;
             } else {
                 result = { message: 'Dealer has Blackjack!', color: -1 };
+                playerHandObj.status = -1;
                 setDealerWins(prev => prev + 1);
-                netPayout = 0;
             }
+            // updatePlayerHand(0, {status: status}) // can't assume state will be updated by the time we call resolveBet
             setResultMessage(result);
             setGamePhase('gameOver');
-            resolveBet(netPayout);
+            resolveBet([playerHandObj]);
             return true;
         }
         return false;
@@ -70,20 +100,23 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         const dealerTotal = calculateHandValue(finalDealerHand);
         let playerWinCount = 0;
         let dealerWinCount = 0;
-        let totalPayout = 0;
+        let newPlayerHands = []
 
-        playerHands.forEach(({ cards, bet }) => {
+        playerHands.forEach(({ cards, bet, status }) => {
             const playerTotal = calculateHandValue(cards);
             if (playerTotal > 21) {
                 dealerWinCount++;
+                status = -1;
             } else if (dealerTotal > 21 || playerTotal > dealerTotal) {
                 playerWinCount++;
-                totalPayout += bet * 2;
+                status = 1;
             } else if (dealerTotal > playerTotal) {
                 dealerWinCount++;
+                status = -1;
             } else {
-                totalPayout += bet;
+                status = 0;
             }
+            newPlayerHands.push({cards: cards, bet: bet, status: status})
         });
 
         setPlayerWins(prev => prev + playerWinCount);
@@ -102,7 +135,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
 
         setResultMessage(result);
         setGamePhase('gameOver');
-        resolveBet(totalPayout);
+        resolveBet(newPlayerHands);
     };
 
     const dealCards = async (initialBet) => {
@@ -121,8 +154,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
 
         playerCards.push(newShoe.pop());
         updateCount([playerCards[0]]);
-        setPlayerHands([{ cards: [...playerCards], bet: initialBet }]);
-        // setPlayerMoney(prev => prev - initialBet);
+        setPlayerHands([{ cards: [...playerCards], bet: initialBet}]);
         await delay(duration);
 
         newDealerHand.push(newShoe.pop());
@@ -131,7 +163,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
 
         playerCards.push(newShoe.pop());
         updateCount([playerCards[1]]);
-        setPlayerHands([{ cards: [...playerCards], bet: initialBet }]);
+        setPlayerHands([{ cards: [...playerCards], bet: initialBet}]);
         await delay(duration);
 
         newDealerHand.push(newShoe.pop());
@@ -156,7 +188,6 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         setPlayerHands(newHands);
         setShoe(newShoe);
 
-        // does this work?
         if (doubleDown) {
             stand();
         }
@@ -171,7 +202,8 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
     };
 
     const canDoubleDown = () => {
-        return playerHands[activeHandIndex].cards.length == 2 && playerMoney >= playerHands[activeHandIndex].bet;
+        if (gamePhase !== 'playerTurn') return false;
+        return playerHands[activeHandIndex].cards.length === 2 && playerMoney >= playerHands[activeHandIndex].bet;
     };
 
     const doubleDown = () => {
@@ -206,6 +238,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
     };
 
     const canSplit = () => {
+        if (gamePhase !== 'playerTurn') return false;
         const hand = playerHands[activeHandIndex].cards;
         return hand.length === 2 && hand[0].value === hand[1].value && playerMoney >= playerHands[activeHandIndex].bet;
     };
@@ -234,7 +267,25 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         showDealerCardUtil(false);
         setResultMessage({ message: '' });
         setActiveHandIndex(0)
+        setDeckCleared(false);
     };
+
+    const clearDeck = () => {
+        setPlayerHands([{ cards: [], bet: 0 }]);
+        setDealerHand([]);
+        showDealerCardUtil(false);
+        setDeckCleared(true);
+    }
+
+    // useEffect(() => {
+    //     if (gamePhase === 'gameOver') {
+    //         const timer = setTimeout(() => {
+    //             clearDeck()
+    //         }, 5000);
+
+    //         return () => clearTimeout(timer); // Clean up if phase changes early
+    //     }
+    // }, [gamePhase]);
 
     return {
         state: {
@@ -249,7 +300,8 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
             resultMessage,
             countCards,
             runningCount,
-            showBook
+            showBook,
+            deckCleared
         },
         actions: {
             dealCards,
@@ -257,7 +309,8 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
             stand,
             doubleDown,
             handleSplit,
-            resetHands
+            resetHands,
+            clearDeck
         },
         flags: {
             canSplit: canSplit(),

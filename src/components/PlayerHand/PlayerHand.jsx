@@ -1,7 +1,10 @@
 import Card from '../Deck/Card';
 import { getHandDisplay } from '../../utils/gameLogic';
 
-export default function PlayerHand({ hand, bet, activeHand = false, showDealerCard = false, isDealer = false }) {
+/*
+Status: 0=playing/push, 1=win, -1=loss
+*/
+export default function PlayerHand({ hand, bet, status=0, activeHand = false, showDealerCard = false, isDealer = false }) {
   let header;
   isDealer ? header = "Dealer's Hand" : header = "Player's Hand"
   return (

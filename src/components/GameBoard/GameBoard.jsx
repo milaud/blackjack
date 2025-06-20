@@ -36,7 +36,8 @@ export default function GameBoard({ numberOfDecks }) {
             resultMessage,
             countCards,
             runningCount,
-            showBook
+            showBook,
+            deckCleared
         },
         actions: {
             dealCards,
@@ -44,7 +45,8 @@ export default function GameBoard({ numberOfDecks }) {
             stand,
             doubleDown,
             handleSplit,
-            resetHands
+            resetHands,
+            clearDeck
         },
         flags: {
             canSplit,
@@ -94,10 +96,11 @@ export default function GameBoard({ numberOfDecks }) {
                 />
             )}
             <div>
+                {gamePhase === 'gameOver' && !deckCleared && <button onClick={clearDeck}>Clear Deck</button>}
                 {(gamePhase === 'start' || gamePhase === 'gameOver')
                     &&
                     <button onClick={handleDealClick} disabled={playerBet === 0}>Deal</button>}
-                {(gamePhase !== 'start') && (
+                {(!deckCleared && gamePhase !== 'start') && (
                     <div>
                         <div>
                             <h3>Dealer's Hand</h3>
@@ -124,7 +127,7 @@ export default function GameBoard({ numberOfDecks }) {
                 )}
                 <div className='player_bank_info'>
                     <span>Total Bankroll: ${playerMoney}</span> 
-                    {gamePhase === 'start' && <span>Current Bet: ${playerBet}</span>}
+                    {(gamePhase === 'start' || gamePhase === 'gameOver') && <span>Current Bet: ${playerBet}</span>}
                 </div>
             </div>
         </div>
