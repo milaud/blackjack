@@ -1,32 +1,9 @@
 import Card from '../Deck/Card';
+import { getHandDisplay } from '../../utils/gameLogic';
 
-function calculateScore(hand) {
-  let total = 0;
-  let aces = 0;
-
-  hand.forEach(card => {
-    const value = card.value;
-    if (['J', 'Q', 'K'].includes(value)) {
-      total += 10;
-    } else if (value === 'A') {
-      total += 11;
-      aces += 1;
-    } else {
-      total += parseInt(value);
-    }
-  });
-
-  while (total > 21 && aces > 0) {
-    total -= 10;
-    aces -= 1;
-  }
-
-  return aces > 0 ? `${total - 10}/${total}` : `${total}`;
-}
-
-export default function PlayerHand({ hand, isDealer = false }) {
+export default function PlayerHand({ hand, activeHand = false, isDealer = false }) {
   return (
-      <div className="hand">
+      <div className="hand" style={{marginBottom: '1rem', border: !isDealer && activeHand ? '2px solid blue' : 'none' }}>
         {hand.map((card, index) => (
           <Card
             key={index}
@@ -35,7 +12,7 @@ export default function PlayerHand({ hand, isDealer = false }) {
             hidden={isDealer && index === 0}
           />
         ))}
-        {!isDealer ? <div><strong>{calculateScore(hand)}</strong> </div>: null}
+        {!isDealer ? <div><strong>{getHandDisplay(hand)}</strong> </div>: null}
       </div>
   );
 }

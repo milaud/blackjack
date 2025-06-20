@@ -13,3 +13,12 @@ body {
     monospace;
 } */
 
+.player_hands {
+  display: inline-flex;
+}
+
+.count_items {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}

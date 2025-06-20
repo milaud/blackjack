@@ -1,7 +1,4 @@
 import './App.css';
-import { useState, useEffect } from 'react';
-import { createShoe } from './components/Shoe/Shoe';
-import PlayerHand from './components/PlayerHand/PlayerHand';
 import GameBoard from './components/GameBoard/GameBoard';
 
 function App() {
