@@ -1,10 +1,26 @@
 import PlayerHand from '../PlayerHand/PlayerHand';
 import Book from '../BookModal/Book'
 import Message from '../Message/Message';
-import useBlackjackGame from '../../hooks/useBlackjackgame';
 import CardCounter from '../CardCounter/CardCounter';
+import BetControls from '../BetControls/BetControls';
+
+import useBlackjackGame from '../../hooks/useBlackjackgame';
+import useBetting from '../../hooks/useBetting';
+
 
 export default function GameBoard({ numberOfDecks }) {
+
+    const {
+        playerMoney,
+        playerBet,
+        betPlaced,
+        placeBet,
+        reduceBet,
+        clearBet,
+        resolveBet,
+        setBetPlaced
+    } = useBetting(1000);
+
     const {
         state: {
             shoe,
@@ -34,12 +50,14 @@ export default function GameBoard({ numberOfDecks }) {
             setCountCards,
             setShowBook
         }
-    } = useBlackjackGame(numberOfDecks);
+    } = useBlackjackGame(numberOfDecks, playerBet, resolveBet);
 
     const decksRemaining = Math.ceil(shoe.length / 52);
     const trueCount = (runningCount / decksRemaining).toFixed(2);
-    
+
     const handleDealClick = async () => {
+        if (playerBet <= 0) return alert('Please place a bet first.');
+        setBetPlaced(true);
         resetHands();
         await dealCards();
     };
@@ -48,36 +66,40 @@ export default function GameBoard({ numberOfDecks }) {
         setCountCards(!countCards);
     };
 
-    /*
-      TODO: 
-        add options to place bets
-            - enter amount to start with at the very beginning
-            - enter minimum bets
-
-        add double down buttons/logic
-    */
-
     return (
         <div className="game_board">
-            <CardCounter countCards={countCards} runningCount={runningCount} trueCount={trueCount} shoeCount={shoe.length} toggleCountCards={toggleCountCards}/>
+            <CardCounter countCards={countCards} runningCount={runningCount} trueCount={trueCount} shoeCount={shoe.length} toggleCountCards={toggleCountCards} />
+            <Message dictionary={resultMessage} />
             <p>Player Wins: {playerWins} | Dealer Wins: {dealerWins}</p>
             <div className='book_items'>
                 <button onClick={() => setShowBook(true)}>What does the Book say?</button>
                 <Book
-                    show={showBook} 
-                    cards={{"dealer": dealerHand.at(-1), "player": playerHands[activeHandIndex]}}
-                    onClose={() => setShowBook(false)} 
+                    show={showBook}
+                    cards={{ "dealer": dealerHand.at(-1), "player": playerHands[activeHandIndex] }}
+                    onClose={() => setShowBook(false)}
                 />
             </div>
-            <Message dictionary={resultMessage} />
+            <p>Total Bankroll: ${playerMoney} | Current Bet: ${playerBet}</p>
+            {!betPlaced && (
+                <BetControls
+                    playerMoney={playerMoney}
+                    playerBet={playerBet}
+                    placeBet={placeBet}
+                    reduceBet={reduceBet}
+                    clearBet={clearBet}
+                    onConfirmBet={handleDealClick}
+                />
+            )}
             <div>
-                {(gamePhase === 'start' || gamePhase === 'gameOver') && <button onClick={handleDealClick}>Deal</button>}
+                {(gamePhase === 'start' || gamePhase === 'gameOver')
+                    &&
+                    <button onClick={handleDealClick} disabled={playerBet === 0}>Deal</button>}
                 {(gamePhase !== 'start') && (
                     <div>
                         <PlayerHand hand={dealerHand} isDealer={!showDealerCard} />
                         <div className='player_hands'>
                             {playerHands.map((hand, i) => (
-                                <PlayerHand key={i} hand={hand} activeHand={playerHands.length > 1 && activeHandIndex === i}/>
+                                <PlayerHand key={i} hand={hand} activeHand={playerHands.length > 1 && activeHandIndex === i} />
                             ))}
                         </div>
                     </div>
