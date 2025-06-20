@@ -6,7 +6,7 @@ function App() {
 
   return (
     <div>
-      <h1>Blackjack</h1>
+      <h2>Blackjack</h2>
       <GameBoard numberOfDecks={numberOfDecks}/>
     </div>
   );
