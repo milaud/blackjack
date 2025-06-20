@@ -18,7 +18,9 @@ export default function GameBoard({ numberOfDecks }) {
         reduceBet,
         clearBet,
         resolveBet,
-        setBetPlaced
+        setBetPlaced,
+        setPlayerBet,
+        setPlayerMoney
     } = useBetting(1000);
 
     const {
@@ -40,17 +42,19 @@ export default function GameBoard({ numberOfDecks }) {
             dealCards,
             hit,
             stand,
+            doubleDown,
             handleSplit,
             resetHands
         },
         flags: {
-            canSplit
+            canSplit,
+            canDoubleDown
         },
         setters: {
             setCountCards,
             setShowBook
         }
-    } = useBlackjackGame(numberOfDecks, playerBet, resolveBet);
+    } = useBlackjackGame(numberOfDecks, playerMoney, resolveBet, setPlayerMoney, setPlayerBet);
 
     const decksRemaining = Math.ceil(shoe.length / 52);
     const trueCount = (runningCount / decksRemaining).toFixed(2);
@@ -59,7 +63,7 @@ export default function GameBoard({ numberOfDecks }) {
         if (playerBet <= 0) return alert('Please place a bet first.');
         setBetPlaced(true);
         resetHands();
-        await dealCards();
+        await dealCards(playerBet);
     };
 
     const toggleCountCards = () => {
@@ -75,11 +79,10 @@ export default function GameBoard({ numberOfDecks }) {
                 <button onClick={() => setShowBook(true)}>What does the Book say?</button>
                 <Book
                     show={showBook}
-                    cards={{ "dealer": dealerHand.at(-1), "player": playerHands[activeHandIndex] }}
+                    cards={{ "dealer": dealerHand.at(-1), "player": playerHands[activeHandIndex]?.cards }}
                     onClose={() => setShowBook(false)}
                 />
             </div>
-            <p>Total Bankroll: ${playerMoney} | Current Bet: ${playerBet}</p>
             {!betPlaced && (
                 <BetControls
                     playerMoney={playerMoney}
@@ -96,21 +99,33 @@ export default function GameBoard({ numberOfDecks }) {
                     <button onClick={handleDealClick} disabled={playerBet === 0}>Deal</button>}
                 {(gamePhase !== 'start') && (
                     <div>
-                        <PlayerHand hand={dealerHand} isDealer={!showDealerCard} />
-                        <div className='player_hands'>
-                            {playerHands.map((hand, i) => (
-                                <PlayerHand key={i} hand={hand} activeHand={playerHands.length > 1 && activeHandIndex === i} />
-                            ))}
+                        <div>
+                            <h3>Dealer's Hand</h3>
+                            <PlayerHand hand={dealerHand} isDealer={true} showDealerCard={!showDealerCard} />
                         </div>
+                        <div>
+                            <h3>Player's Hand</h3>
+                            <p>Total Bets: ${playerBet}</p>
+                            <div className='player_hands'>
+                                {playerHands.map((hand, i) => (
+                                    <PlayerHand key={i} hand={hand.cards} bet={hand.bet} activeHand={playerHands.length > 1 && activeHandIndex === i} />
+                                ))}
+                            </div>
+                         </div>
                     </div>
                 )}
                 {gamePhase === 'playerTurn' && (
                     <div>
-                        <button onClick={hit}>Hit</button>
+                        <button onClick={() => hit(false)}>Hit</button>
+                        {canDoubleDown && <button onClick={doubleDown}>Double Down</button>}
                         <button onClick={stand}>Stand</button>
                         {canSplit && <button onClick={handleSplit}>Split</button>}
                     </div>
                 )}
+                <div className='player_bank_info'>
+                    <span>Total Bankroll: ${playerMoney}</span> 
+                    {gamePhase === 'start' && <span>Current Bet: ${playerBet}</span>}
+                </div>
             </div>
         </div>
     );

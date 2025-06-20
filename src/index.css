@@ -22,3 +22,52 @@ body {
   align-items: center;
   gap: 0.5rem;
 }
+
+.player_bank_info {
+  display: grid;
+}
+
+.chips-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.chip-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 8px;
+}
+
+.chip-button {
+  background-color: #eee;
+  border: none;
+  padding: 4px 8px;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 2px 0;
+}
+
+.chip-circle {
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4px 0;
+  color: white;
+}
+
+.chip-1   { background-color: white; }
+.chip-5   { background-color: red; }
+.chip-10   { background-color: green; }
+.chip-25  { background-color: blue; }
+.chip-50   { background-color: slategrey }
+.chip-100 { background-color: black; }
+.chip-500 { background-color: darkmagenta; }
+.chip-1000 { background-color: gold; }
+

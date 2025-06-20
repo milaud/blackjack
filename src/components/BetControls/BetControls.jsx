@@ -1,3 +1,4 @@
+import { Chip } from "./Chip";
 export default function BetControls({
     playerMoney,
     playerBet,
@@ -5,25 +6,26 @@ export default function BetControls({
     reduceBet,
     clearBet
 }) {
-    const betOptions = [1, 5, 10, 25, 50, 100, 500, 1000];
+    // const betOptions = [1, 5, 10, 25, 50, 100, 500, 1000];
+    const betOptions = [5, 10, 25, 50, 100, 500, 1000];
 
     return (
         <div className="bet-controls">
-            <div className="bet-buttons">
+            <div className="chips-row">
                 {betOptions.map((amount) => (
-                    <button
-                        key={amount}
-                        disabled={playerMoney < amount}
-                        onClick={() => placeBet(amount)}
-                    >
-                        ${amount}
-                    </button>
+                    <Chip 
+                        key={amount} 
+                        amount={amount} 
+                        playerMoney={playerMoney} 
+                        onIncrease={() => placeBet(amount)}
+                        onDecrease={() => reduceBet(amount)}
+                    />
                 ))}
             </div>
 
-            <button onClick={() => reduceBet(1)} disabled={playerBet < 1}>
+            {/* <button onClick={() => reduceBet(1)} disabled={playerBet < 1}>
                 -$1
-            </button>
+            </button> */}
             <button onClick={() => clearBet()} disabled={playerBet === 0}>
                 Clear Bet
             </button>

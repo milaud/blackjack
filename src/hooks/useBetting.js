@@ -46,5 +46,7 @@ export default function useBetting(initialMoney = 1000) {
     reduceBet,
     clearBet,
     resolveBet,
+    setPlayerBet,
+    setPlayerMoney
   };
 }

@@ -3,9 +3,9 @@ import { createShoe } from '../components/Shoe/Shoe';
 import { calculateHandValue } from '../utils/gameLogic';
 import { getCardCountValue } from '../utils/helpers';
 
-export default function useBlackjackGame(numberOfDecks, playerBet, resolveBet) {
+export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet, setPlayerMoney, setPlayerBet) {
     const [shoe, setShoe] = useState(createShoe(numberOfDecks));
-    const [playerHands, setPlayerHands] = useState([[]]);
+    const [playerHands, setPlayerHands] = useState([{ cards: [], bet: 0 }]);
     const [activeHandIndex, setActiveHandIndex] = useState(0);
     const [dealerHand, setDealerHand] = useState([]);
     const [gamePhase, setGamePhase] = useState('start');
@@ -29,17 +29,17 @@ export default function useBlackjackGame(numberOfDecks, playerBet, resolveBet) {
     };
 
     const showDealerCardUtil = (show, dealerCard = null) => {
-        setShowDealerCard(show)
+        setShowDealerCard(show);
         if (show) {
             if (!dealerCard) {
-                dealerCard = dealerHand[0]
+                dealerCard = dealerHand[0];
             }
             updateCount([dealerCard]);
         }
-    }
+    };
 
-    const checkInitialBlackjack = (newPlayerHand, newDealerHand) => {
-        const playerTotal = calculateHandValue(newPlayerHand);
+    const checkInitialBlackjack = (playerHandObj, newDealerHand) => {
+        const playerTotal = calculateHandValue(playerHandObj.cards);
         const dealerTotal = calculateHandValue(newDealerHand);
         let result = {};
         let netPayout = 0;
@@ -48,11 +48,11 @@ export default function useBlackjackGame(numberOfDecks, playerBet, resolveBet) {
             showDealerCardUtil(true, newDealerHand[0]);
             if (playerTotal === 21 && dealerTotal === 21) {
                 result = { message: 'Push! Both have Blackjack.', color: 0 };
-                netPayout = playerBet;
+                netPayout = playerHandObj.bet;
             } else if (playerTotal === 21) {
                 result = { message: 'Blackjack! Player wins!', color: 1 };
                 setPlayerWins(prev => prev + 1);
-                netPayout = playerBet * 2.5;
+                netPayout = playerHandObj.bet * 2.5;
             } else {
                 result = { message: 'Dealer has Blackjack!', color: -1 };
                 setDealerWins(prev => prev + 1);
@@ -60,7 +60,7 @@ export default function useBlackjackGame(numberOfDecks, playerBet, resolveBet) {
             }
             setResultMessage(result);
             setGamePhase('gameOver');
-            resolveBet(netPayout)
+            resolveBet(netPayout);
             return true;
         }
         return false;
@@ -70,63 +70,68 @@ export default function useBlackjackGame(numberOfDecks, playerBet, resolveBet) {
         const dealerTotal = calculateHandValue(finalDealerHand);
         let playerWinCount = 0;
         let dealerWinCount = 0;
+        let totalPayout = 0;
 
-        playerHands.forEach(hand => {
-            const playerTotal = calculateHandValue(hand);
-            if (playerTotal > 21) dealerWinCount++;
-            else if (dealerTotal > 21 || playerTotal > dealerTotal) playerWinCount++;
-            else if (dealerTotal > playerTotal) dealerWinCount++;
+        playerHands.forEach(({ cards, bet }) => {
+            const playerTotal = calculateHandValue(cards);
+            if (playerTotal > 21) {
+                dealerWinCount++;
+            } else if (dealerTotal > 21 || playerTotal > dealerTotal) {
+                playerWinCount++;
+                totalPayout += bet * 2;
+            } else if (dealerTotal > playerTotal) {
+                dealerWinCount++;
+            } else {
+                totalPayout += bet;
+            }
         });
 
         setPlayerWins(prev => prev + playerWinCount);
         setDealerWins(prev => prev + dealerWinCount);
 
         let result = {};
-        let netPayout = 0;
         if (playerWinCount > 0 && dealerWinCount > 0) {
             result = { message: 'Some hands won, some lost!', color: 0 };
-            netPayout = playerBet * (playerWinCount - dealerWinCount);
         } else if (playerWinCount > 0) {
             result = { message: 'Player wins!', color: 1 };
-            netPayout = playerBet * 2; // Win pays 1:1
         } else if (playerWinCount === 0 && dealerWinCount === 0) {
             result = { message: 'Push!', color: 0 };
-            netPayout = playerBet; // Return bet on push
         } else {
             result = { message: 'Dealer wins!', color: -1 };
-            netPayout = 0; // Lose bet
         }
+
         setResultMessage(result);
         setGamePhase('gameOver');
-        resolveBet(netPayout);
+        resolveBet(totalPayout);
     };
 
-    const dealCards = async () => {
-        setGamePhase('dealing')
+    const dealCards = async (initialBet) => {
+        setGamePhase('dealing');
         let newShoe = [...shoe];
         if (shoe.length < 0.4 * 52 * numberOfDecks) {
-            setResultMessage({ "message": "Reshuffling shoe...", "color": 0 });
-            await delay(duration)
+            setResultMessage({ message: 'Reshuffling shoe...', color: 0 });
+            await delay(duration);
             newShoe = createShoe(numberOfDecks);
             setRunningCount(0);
-            setResultMessage({ "message": "", "color": 0 });
+            setResultMessage({ message: '', color: 0 });
         }
-        const newPlayerHand = [];
+
+        const playerCards = [];
         const newDealerHand = [];
 
-        newPlayerHand.push(newShoe.pop());
-        updateCount([newPlayerHand[0]]);
-        setPlayerHands([[...newPlayerHand]]);
+        playerCards.push(newShoe.pop());
+        updateCount([playerCards[0]]);
+        setPlayerHands([{ cards: [...playerCards], bet: initialBet }]);
+        // setPlayerMoney(prev => prev - initialBet);
         await delay(duration);
 
         newDealerHand.push(newShoe.pop());
-        // updateCount([newDealerHand[0]]);
         setDealerHand([...newDealerHand]);
         await delay(duration);
 
-        newPlayerHand.push(newShoe.pop());
-        updateCount([newPlayerHand[1]]);
-        setPlayerHands([[...newPlayerHand]]);
+        playerCards.push(newShoe.pop());
+        updateCount([playerCards[1]]);
+        setPlayerHands([{ cards: [...playerCards], bet: initialBet }]);
         await delay(duration);
 
         newDealerHand.push(newShoe.pop());
@@ -136,22 +141,27 @@ export default function useBlackjackGame(numberOfDecks, playerBet, resolveBet) {
 
         setShoe(newShoe);
 
-        if (!checkInitialBlackjack(newPlayerHand, newDealerHand)) {
+        if (!checkInitialBlackjack({ cards: playerCards, bet: initialBet }, newDealerHand)) {
             setGamePhase('playerTurn');
             setActiveHandIndex(0);
         }
-    }
+    };
 
-    const hit = () => {
+    const hit = (doubleDown = false) => {
         const newShoe = [...shoe];
         const card = newShoe.pop();
         updateCount([card]);
         const newHands = [...playerHands];
-        newHands[activeHandIndex].push(card);
+        newHands[activeHandIndex].cards.push(card);
         setPlayerHands(newHands);
         setShoe(newShoe);
 
-        if (calculateHandValue(newHands[activeHandIndex]) > 21) {
+        // does this work?
+        if (doubleDown) {
+            stand();
+        }
+
+        if (calculateHandValue(newHands[activeHandIndex].cards) > 21) {
             if (activeHandIndex < playerHands.length - 1) {
                 setActiveHandIndex(activeHandIndex + 1);
             } else {
@@ -160,13 +170,27 @@ export default function useBlackjackGame(numberOfDecks, playerBet, resolveBet) {
         }
     };
 
+    const canDoubleDown = () => {
+        return playerHands[activeHandIndex].cards.length == 2 && playerMoney >= playerHands[activeHandIndex].bet;
+    };
+
+    const doubleDown = () => {
+        if (!canDoubleDown) return;
+        const hands = [...playerHands];
+        hands[activeHandIndex].bet *= 2;
+        setPlayerMoney(prev => prev - playerHands[activeHandIndex].bet / 2);
+        setPlayerBet(prev => prev + playerHands[activeHandIndex].bet / 2)
+        setPlayerHands(hands);
+        hit(true);
+    };
+
     const stand = async () => {
         if (activeHandIndex < playerHands.length - 1) {
             setActiveHandIndex(activeHandIndex + 1);
             return;
         }
         setGamePhase('dealerTurn');
-        showDealerCardUtil(true)
+        showDealerCardUtil(true);
         let newShoe = [...shoe];
         let newDealerHand = [...dealerHand];
 
@@ -182,21 +206,22 @@ export default function useBlackjackGame(numberOfDecks, playerBet, resolveBet) {
     };
 
     const canSplit = () => {
-        // TO LOOK INTO: split on same card values or actual cards? ie can we split on K, 10?
-        const hand = playerHands[activeHandIndex];
-        return hand.length === 2 && hand[0].value === hand[1].value;
+        const hand = playerHands[activeHandIndex].cards;
+        return hand.length === 2 && hand[0].value === hand[1].value && playerMoney >= playerHands[activeHandIndex].bet;
     };
 
     const handleSplit = () => {
         if (!canSplit()) return;
         const newShoe = [...shoe];
         const hands = [...playerHands];
-        const currentHand = hands[activeHandIndex];
+        const current = hands[activeHandIndex];
 
-        const hand1 = [currentHand[0], newShoe.pop()];
-        const hand2 = [currentHand[1], newShoe.pop()];
+        const hand1 = { cards: [current.cards[0], newShoe.pop()], bet: current.bet };
+        const hand2 = { cards: [current.cards[1], newShoe.pop()], bet: current.bet };
 
-        updateCount([hand1[1], hand2[1]]);
+        updateCount([hand1.cards[1], hand2.cards[1]]);
+        setPlayerMoney(prev => prev - current.bet);
+        setPlayerBet(prev => prev + current.bet)
 
         hands.splice(activeHandIndex, 1, hand1, hand2);
         setPlayerHands(hands);
@@ -204,10 +229,11 @@ export default function useBlackjackGame(numberOfDecks, playerBet, resolveBet) {
     };
 
     const resetHands = () => {
-        setPlayerHands([[]]);
+        setPlayerHands([{ cards: [], bet: 0 }]);
         setDealerHand([]);
-        showDealerCardUtil(false)
-        setResultMessage({ "message": "" });
+        showDealerCardUtil(false);
+        setResultMessage({ message: '' });
+        setActiveHandIndex(0)
     };
 
     return {
@@ -229,16 +255,17 @@ export default function useBlackjackGame(numberOfDecks, playerBet, resolveBet) {
             dealCards,
             hit,
             stand,
+            doubleDown,
             handleSplit,
             resetHands
         },
         flags: {
-            canSplit: canSplit()
+            canSplit: canSplit(),
+            canDoubleDown: canDoubleDown()
         },
         setters: {
             setCountCards,
             setShowBook
         }
     };
-
 }
