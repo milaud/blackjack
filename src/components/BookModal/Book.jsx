@@ -3,7 +3,7 @@ import './Book.css';
 import { getHandDisplay } from '../../utils/gameLogic';
 
 
-export default function Book({ show, cards, onClose }) {
+export default function Book({ show, cards=null, onClose }) {
     if (!show) return null;
     return (
         <div className="modal-overlay" onClick={onClose}>
@@ -12,8 +12,13 @@ export default function Book({ show, cards, onClose }) {
                     <h2>Blackjack Strategy</h2>
                     <button className="close-button" onClick={onClose}>×</button>
                 </div>
-                <p>Dealer's showing: {cards.dealer.value}</p>
-                <p>You have: {cards.player.map(card => card.value).join(", ")} ({getHandDisplay(cards.player)})</p>
+                {cards.dealer && cards.player ?
+                    <div>
+                        <p>Dealer's showing: {cards.dealer.value}</p>
+                        <p>You have: {cards.player.map(card => card.value).join(", ")} ({getHandDisplay(cards.player)})</p>
+                    </div>
+                    : <div></div>
+                }
                 <img
                 src={bookImage}
                 alt="Blackjack Strategy"
