@@ -1,46 +1,75 @@
-export function calculateHandValue(hand) {
-  let total = 0;
-  let aces = 0;
+import { calculateHandValue } from "./helpers";
 
-  for (const card of hand) {
-    if (card.value === 'A') {
-      aces += 1;
-      total += 11;
-    } else if (['K', 'Q', 'J'].includes(card.value)) {
-      total += 10;
-    } else {
-      total += parseInt(card.value, 10);
+export function checkInitialBlackjack(playerHandObj, dealerHand) {
+    const playerTotal = calculateHandValue(playerHandObj.cards);
+    const dealerTotal = calculateHandValue(dealerHand);
+
+    let result = null;
+    let status = null;
+
+    if (playerTotal === 21 || dealerTotal === 21) {
+        if (playerTotal === 21 && dealerTotal === 21) {
+            result = { message: 'Push! Both have Blackjack.', color: 0 };
+            status = 0;
+        } else if (playerTotal === 21) {
+            result = { message: 'Blackjack! Player wins!', color: 1 };
+            status = 1;
+        } else {
+            result = { message: 'Dealer has Blackjack!', color: -1 };
+            status = -1;
+        }
+
+        return {
+            blackjack: true,
+            updatedHand: { ...playerHandObj, status },
+            result
+        };
     }
-  }
 
-  while (total > 21 && aces > 0) {
-    total -= 10;
-    aces--;
-  }
-  
-  return total;
+    return {
+        blackjack: false
+    };
 }
 
-export function getHandDisplay(hand) {
-  let total = 0;
-  let aces = 0;
+export function evaluateHands(playerHands, dealerHand) {
+    const dealerTotal = calculateHandValue(dealerHand);
+    let playerWinCount = 0;
+    let dealerWinCount = 0;
 
-  hand.forEach(card => {
-    const value = card.value;
-    if (['J', 'Q', 'K'].includes(value)) {
-      total += 10;
-    } else if (value === 'A') {
-      total += 11;
-      aces += 1;
+    const updatedHands = playerHands.map(hand => {
+        const total = calculateHandValue(hand.cards);
+        let status;
+        if (total > 21) {
+            status = -1;
+            dealerWinCount++;
+        } else if (dealerTotal > 21 || total > dealerTotal) {
+            status = 1;
+            playerWinCount++;
+        } else if (dealerTotal > total) {
+            status = -1;
+            dealerWinCount++;
+        } else {
+            status = 0;
+        }
+
+        return { ...hand, status };
+    });
+
+    let result = {};
+    if (playerWinCount > 0 && dealerWinCount > 0) {
+        result = { message: 'Some hands won, some lost!', color: 0 };
+    } else if (playerWinCount > 0) {
+        result = { message: 'Player wins!', color: 1 };
+    } else if (playerWinCount === 0 && dealerWinCount === 0) {
+        result = { message: 'Push!', color: 0 };
     } else {
-      total += parseInt(value);
+        result = { message: 'Dealer wins!', color: -1 };
     }
-  });
 
-  while (total > 21 && aces > 0) {
-    total -= 10;
-    aces -= 1;
-  }
-
-  return aces > 0 ? `${total - 10}/${total}` : `${total}`;
+    return {
+        updatedHands,
+        playerWinCount,
+        dealerWinCount,
+        result
+    };
 }

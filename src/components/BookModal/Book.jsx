@@ -1,6 +1,6 @@
 import bookImage from './book.png'
 import './Book.css';
-import { getHandDisplay } from '../../utils/gameLogic';
+import { getHandDisplay } from '../../utils/helpers';
 
 
 export default function Book({ show, cards=null, onClose }) {
