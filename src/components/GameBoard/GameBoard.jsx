@@ -7,6 +7,8 @@ import BetControls from '../BetControls/BetControls';
 import useBlackjackGame from '../../hooks/useBlackjackgame';
 import useBetting from '../../hooks/useBetting';
 
+import { GamePhases } from '../../constants/gamePhases';
+
 
 export default function GameBoard({ numberOfDecks }) {
 
@@ -98,11 +100,11 @@ export default function GameBoard({ numberOfDecks }) {
                 />
             )}
             <div>
-                {gamePhase === 'gameOver' && !deckCleared && <button onClick={clearDeck}>Clear Deck</button>}
-                {(gamePhase === 'start' || gamePhase === 'gameOver')
+                {gamePhase === GamePhases.GAME_OVER && !deckCleared && <button onClick={clearDeck}>Clear Deck</button>}
+                {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER)
                     &&
                     <button onClick={handleDealClick} disabled={playerBet === 0}>Deal</button>}
-                {(!deckCleared && gamePhase !== 'start') && (
+                {(!deckCleared && gamePhase !== GamePhases.START) && (
                     <div>
                         <div>
                             <h3>Dealer's Hand</h3>
@@ -119,7 +121,7 @@ export default function GameBoard({ numberOfDecks }) {
                          </div>
                     </div>
                 )}
-                {gamePhase === 'playerTurn' && (
+                {gamePhase === GamePhases.PLAYER_TURN && (
                     <div>
                         <button onClick={() => hit(false)}>Hit</button>
                         {canDoubleDown && <button onClick={doubleDown}>Double Down</button>}
@@ -129,7 +131,7 @@ export default function GameBoard({ numberOfDecks }) {
                 )}
                 <div className='player_bank_info'>
                     <span>Total Bankroll: ${playerMoney}</span> 
-                    {(gamePhase === 'start' || gamePhase === 'gameOver') && <span>Current Bet: ${playerBet}</span>}
+                    {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER) && <span>Current Bet: ${playerBet}</span>}
                 </div>
             </div>
         </div>

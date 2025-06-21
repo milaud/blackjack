@@ -3,13 +3,14 @@ import { createShoe } from '../components/Shoe/Shoe';
 import { checkInitialBlackjack, evaluateHands } from '../utils/gameLogic';
 import { calculateHandValue } from '../utils/helpers';
 import useCardCounter from './useCardCounter';
+import { GamePhases } from '../constants/gamePhases';
 
 export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet, setPlayerMoney, setPlayerBet) {
     const [shoe, setShoe] = useState(createShoe(numberOfDecks));
     const [playerHands, setPlayerHands] = useState([{ cards: [], bet: 0, status: 0 }]);
     const [activeHandIndex, setActiveHandIndex] = useState(0);
     const [dealerHand, setDealerHand] = useState([]);
-    const [gamePhase, setGamePhase] = useState('start');
+    const [gamePhase, setGamePhase] = useState(GamePhases.START);
     const [showDealerCard, setShowDealerCard] = useState(false);
     const [playerWins, setPlayerWins] = useState(0);
     const [dealerWins, setDealerWins] = useState(0);
@@ -70,7 +71,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
     
 
     const dealCards = async (initialBet) => {
-        setGamePhase('dealing');
+        setGamePhase(GamePhases.DEALING);
         let newShoe = [...shoe];
         if (shoe.length < 0.4 * 52 * numberOfDecks) {
             setResultMessage({ message: 'Reshuffling shoe...', color: 0 });
@@ -109,12 +110,12 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
             setPlayerHands([outcome.updatedHand]);
             revealDealerCard(true, newDealerHand[0]);
             setResultMessage(outcome.result);
-            setGamePhase('gameOver');
+            setGamePhase(GamePhases.GAME_OVER);
             resolveBet([outcome.updatedHand]);
             return;
         }
 
-        setGamePhase('playerTurn');
+        setGamePhase(GamePhases.PLAYER_TURN);
         setActiveHandIndex(0);
     };
 
@@ -141,7 +142,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
     };
 
     const canDoubleDown = () => {
-        if (gamePhase !== 'playerTurn') return false;
+        if (gamePhase !== GamePhases.PLAYER_TURN) return false;
         return playerHands[activeHandIndex].cards.length === 2 && playerMoney >= playerHands[activeHandIndex].bet;
     };
 
@@ -160,7 +161,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
             setActiveHandIndex(activeHandIndex + 1);
             return;
         }
-        setGamePhase('dealerTurn');
+        setGamePhase(GamePhases.DEALER_TURN);
         revealDealerCard(true);
         let newShoe = [...shoe];
         let newDealerHand = [...dealerHand];
@@ -178,12 +179,12 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         setPlayerWins(prev => prev + outcome.playerWinCount);
         setDealerWins(prev => prev + outcome.dealerWinCount);
         setResultMessage(outcome.result);
-        setGamePhase('gameOver');
+        setGamePhase(GamePhases.GAME_OVER);
         resolveBet(outcome.updatedHands);
     };
 
     const canSplit = () => {
-        if (gamePhase !== 'playerTurn') return false;
+        if (gamePhase !== GamePhases.PLAYER_TURN) return false;
         const hand = playerHands[activeHandIndex].cards;
         return hand.length === 2 && hand[0].value === hand[1].value && playerMoney >= playerHands[activeHandIndex].bet;
     };
