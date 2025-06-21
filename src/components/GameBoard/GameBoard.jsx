@@ -57,6 +57,8 @@ export default function GameBoard({ numberOfDecks }) {
             setShowBook
         }
     } = useBlackjackGame(numberOfDecks, playerMoney, resolveBet, setPlayerMoney, setPlayerBet);
+    
+    
 
     const decksRemaining = Math.ceil(shoe.length / 52);
     const trueCount = (runningCount / decksRemaining).toFixed(2);

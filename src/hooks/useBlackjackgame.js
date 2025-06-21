@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { createShoe } from '../components/Shoe/Shoe';
 import { calculateHandValue } from '../utils/gameLogic';
-import { getCardCountValue } from '../utils/helpers';
+import useCardCounter from './useCardCounter';
 
 export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet, setPlayerMoney, setPlayerBet) {
     const [shoe, setShoe] = useState(createShoe(numberOfDecks));
@@ -13,21 +13,19 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
     const [playerWins, setPlayerWins] = useState(0);
     const [dealerWins, setDealerWins] = useState(0);
     const [resultMessage, setResultMessage] = useState({});
-    const [countCards, setCountCards] = useState(false);
-    const [runningCount, setRunningCount] = useState(0);
     const [showBook, setShowBook] = useState(false);
     const [deckCleared, setDeckCleared] = useState(false);
 
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     const duration = 850;
 
-    const updateCount = (cards) => {
-        let delta = 0;
-        cards.forEach(card => {
-            delta += getCardCountValue(card);
-        });
-        setRunningCount(prev => prev + delta);
-    };
+    const {
+        countCards,
+        runningCount,
+        setCountCards,
+        setRunningCount,
+        updateCount
+    } = useCardCounter();
 
     const showDealerCardUtil = (show, dealerCard = null) => {
         setShowDealerCard(show);
@@ -43,6 +41,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
     const updateBet = (index, newBet) => {
         setPlayerHands(hands => {
             hands.map((hand, i) => {
+                // this copies over the previous object (cards, bet, etc..), and then we overwrite bet
                 i === index ? {...hand.cards, bet: newBet } : hand
             })
         })
@@ -51,6 +50,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
     const updateStatus = (index, newStatus) => {
         setPlayerHands(hands => {
             hands.map((hand, i) => {
+                // this copies over the previous object (cards, bet, etc..), and then we overwrite status
                 i === index ? {...hand.cards, status: newStatus } : hand
             })
         })
