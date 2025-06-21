@@ -132,7 +132,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
             stand();
         }
 
-        if (calculateHandValue(newHands[activeHandIndex].cards) > 21) {
+        if (calculateHandValue(newHands[activeHandIndex].cards) >= 21) {
             if (activeHandIndex < playerHands.length - 1) {
                 setActiveHandIndex(activeHandIndex + 1);
             } else {
