@@ -67,13 +67,6 @@ const BlackjackTable = ({cards, initialIndex = 0}) => {
         return parse(a) - parse(b);
     });
 
-    // useEffect(() => {
-    //     if (!cards?.player) return;
-    //     if (isPair(cards.player)) setTableIndex(2); // pairs
-    //     else if (isSoftHand(cards.player)) setTableIndex(1); // soft
-    //     else setTableIndex(0); // hard
-    // }, [cards]);
-
     const tables = [
         <StrategySection title="Hard Totals" data={basicStrategyTable.hard} customOrder={hardOrder} />,
         <StrategySection title="Soft Totals" data={basicStrategyTable.soft} rowLabelPrefix="A," customOrder={softOrder} />,
@@ -103,6 +96,7 @@ const BlackjackTable = ({cards, initialIndex = 0}) => {
 export default function Book({ show, cards = null, onClose }) {
     if (!show) return null;
     let initialIndex = 0;
+    const handType = ["hard", "soft", "pair of"]
     const strategyText = cards.dealer && cards.player
         ? getBlackjackStrategy(cards.dealer, cards.player)
         : '';
@@ -111,7 +105,6 @@ export default function Book({ show, cards = null, onClose }) {
         if (cards.player.length === 2 && cards.player[0].value === cards.player[1].value) initialIndex = 2;
         else if (cards.player.some(card => card.value === 'A')) initialIndex = 1;
     }
-    console.log(initialIndex)
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-box" onClick={(e) => e.stopPropagation()}>
@@ -123,7 +116,7 @@ export default function Book({ show, cards = null, onClose }) {
                     <div>
                         <p>Dealer's showing: {cards.dealer.value}</p>
                         <p>You have: {cards.player.map(card => card.value).join(", ")} ({getHandDisplay(cards.player)})</p>
-                        <p><strong>{strategyText}</strong></p>
+                        <p>Basic strategy says to <strong>{strategyText}</strong> on {handType[initialIndex]} {getHandDisplay(cards.player)}</p>
                     </div>
                     : <div></div>
                 }

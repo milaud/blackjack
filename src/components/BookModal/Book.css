@@ -59,7 +59,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
+  /* padding: 1rem; */
 }
 
 /* .modal-image {
@@ -110,10 +110,10 @@
 }
 
 /* Reuse the same color classes */
-.H { background-color: #f88; color: black; }
+/* .H { background-color: #f88; color: black; }
 .S { background-color: #8f8; color: black; }
 .D { background-color: #88f; color: white; }
-.P { background-color: #ff8; color: black; }
+.P { background-color: #ff8; color: black; } */
 
 table {
   border-collapse: collapse;
@@ -150,14 +150,27 @@ th {
   background-color: #f0f0f0;
 }
 
-td {
-}
+/* td {
+} */
 
 /* Color coding */
 .H { background-color: #f88; color: black; }  /* Hit - Red */
-.S { background-color: #8f8; color: black; }  /* Stand - Green */
-.D { background-color: #88f; color: white; }  /* Double - Blue */
-.P { background-color: #ff8; color: black; }  /* Split - Yellow */
+.S { background-color: #ff8; color: black; }  /* Stand - Yellow */
+.D { background-color: #8f8; color: black; }  /* Double - Green */
+.P { background-color: #88f; color: black; }  /* Split - Blue */
+
+.action-H {
+  color: #f88; 
+}
+.action-S {
+  color: #ff8; 
+}
+.action-D {
+  color: #8f8; 
+}
+.action-P {
+  color: #88f;
+}
 
 .book-navigation {
   display: flex;

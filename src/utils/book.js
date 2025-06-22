@@ -71,7 +71,7 @@ export function getBlackjackStrategy(dealerCard, playerCards) {
         const val = handValues[0] === 'A' ? 11 : parseInt(handValues[0]) || (handValues[0] === 'A' ? 11 : 0);
         const pairRow = basicStrategyTable.pairs[val];
         if (pairRow) {
-            return `Basic strategy suggests: ${actionName(pairRow[dealerIndex])} for pair of ${handValues[0]}s.`;
+            return actionName(pairRow[dealerIndex]);
         }
     }
 
@@ -86,7 +86,7 @@ export function getBlackjackStrategy(dealerCard, playerCards) {
         } else {
             softRow = basicStrategyTable.soft[handTotal];
         }
-        return `Basic strategy suggests: ${actionName(softRow[dealerIndex])} for soft ${handTotal}.`;
+        return actionName(softRow[dealerIndex]);
     }
 
     // Hard total fallback
@@ -99,7 +99,7 @@ export function getBlackjackStrategy(dealerCard, playerCards) {
     } else {
         hardRow = basicStrategyTable.hard[hardTotal];
     }
-    return `Basic strategy suggests: ${actionName(hardRow[dealerIndex])} for hard ${hardTotal}.`;
+    return actionName(hardRow[dealerIndex]);
 }
 
 function actionName(letter) {
