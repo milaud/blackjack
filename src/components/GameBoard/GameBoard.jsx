@@ -59,8 +59,8 @@ export default function GameBoard({ numberOfDecks }) {
             setShowBook
         }
     } = useBlackjackGame(numberOfDecks, playerMoney, resolveBet, setPlayerMoney, setPlayerBet);
-    
-    
+
+
 
     const decksRemaining = Math.ceil(shoe.length / 52);
     const trueCount = (runningCount / decksRemaining).toFixed(2);
@@ -77,10 +77,12 @@ export default function GameBoard({ numberOfDecks }) {
     };
 
     return (
-        <div className="game_board">
+        <div>
+            <div className='game_info'>
+                <Message dictionary={resultMessage} />
+                <p>Player Wins: {playerWins} | Dealer Wins: {dealerWins}</p>
+            </div>
             <CardCounter countCards={countCards} runningCount={runningCount} trueCount={trueCount} shoeCount={shoe.length} toggleCountCards={toggleCountCards} />
-            <Message dictionary={resultMessage} />
-            <p>Player Wins: {playerWins} | Dealer Wins: {dealerWins}</p>
             <div className='book_items'>
                 <button onClick={() => setShowBook(true)}>What does the Book say?</button>
                 <Book
@@ -89,23 +91,25 @@ export default function GameBoard({ numberOfDecks }) {
                     onClose={() => setShowBook(false)}
                 />
             </div>
-            {!betPlaced && (
-                <BetControls
-                    playerMoney={playerMoney}
-                    playerBet={playerBet}
-                    placeBet={placeBet}
-                    reduceBet={reduceBet}
-                    clearBet={clearBet}
-                    onConfirmBet={handleDealClick}
-                />
-            )}
-            <div>
-                {gamePhase === GamePhases.GAME_OVER && !deckCleared && <button onClick={clearDeck}>Clear Deck</button>}
-                {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER)
-                    &&
-                    <button onClick={handleDealClick} disabled={playerBet === 0}>Deal</button>}
+            <div className="game_board">
+                <div className='bet_controls'>
+                    {!betPlaced && (
+                        <BetControls
+                            playerMoney={playerMoney}
+                            playerBet={playerBet}
+                            placeBet={placeBet}
+                            reduceBet={reduceBet}
+                            clearBet={clearBet}
+                            onConfirmBet={handleDealClick}
+                        />
+                    )}
+                    {gamePhase === GamePhases.GAME_OVER && !deckCleared && <button onClick={clearDeck}>Clear Deck</button>}
+                    {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER)
+                        &&
+                        <button onClick={handleDealClick} disabled={playerBet === 0}>Deal</button>}
+                </div>
                 {(!deckCleared && gamePhase !== GamePhases.START) && (
-                    <div>
+                    <div className='hands'>
                         <div>
                             <h3>Dealer's Hand</h3>
                             <PlayerHand hand={dealerHand} isDealer={true} showDealerCard={!showDealerCard} />
@@ -114,11 +118,12 @@ export default function GameBoard({ numberOfDecks }) {
                             <h3>Player's Hand</h3>
                             <p>Total Bets: ${playerBet}</p>
                             <div className='player_hands'>
+                            {/* <div> */}
                                 {playerHands.map((hand, i) => (
                                     <PlayerHand key={i} hand={hand.cards} bet={hand.bet} activeHand={playerHands.length > 1 && activeHandIndex === i} />
                                 ))}
                             </div>
-                         </div>
+                        </div>
                     </div>
                 )}
                 {gamePhase === GamePhases.PLAYER_TURN && (
@@ -129,10 +134,10 @@ export default function GameBoard({ numberOfDecks }) {
                         {canSplit && <button onClick={handleSplit}>Split</button>}
                     </div>
                 )}
-                <div className='player_bank_info'>
-                    <span>Total Bankroll: ${playerMoney}</span> 
-                    {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER) && <span>Current Bet: ${playerBet}</span>}
-                </div>
+            </div>
+            <div className='player_bank_info'>
+                <span>Total Bankroll: ${playerMoney}</span>
+                {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER) && <span>Current Bet: ${playerBet}</span>}
             </div>
         </div>
     );

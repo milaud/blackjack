@@ -13,6 +13,28 @@ body {
     monospace;
 } */
 
+button {
+  padding: 0.4rem 0.8rem;
+  margin: 0.25rem;
+  border: none;
+  border-radius: 4px;
+  /* background-color: #333; */
+  /* color: white; */
+  font-size: 0.9rem;
+}
+
+button:hover:active {
+  background-color: #555;
+  cursor: pointer;
+}
+
+.game_board {
+  width: auto;
+  /* max-width: 1200px; */
+  margin: 0 auto;
+  /* padding: 1rem; */
+}
+
 .player_hands {
   display: inline-flex;
 }
@@ -30,7 +52,7 @@ body {
 .chips-row {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  margin: 8px;
 }
 
 .chip-container {
@@ -71,3 +93,87 @@ body {
 .chip-500 { background-color: darkmagenta; }
 .chip-1000 { background-color: gold; }
 
+/* Tablet screens */
+@media (max-width: 768px) {
+  /* .game_board {
+    padding: 0.5rem;
+  } */
+
+  button {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal-box {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .strategy-table th,
+  .strategy-table td {
+    font-size: 0.6rem;
+    padding: 2px;
+  }
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+  p, span {
+      font-size: 0.8rem;
+    }
+  .game_info {
+    h2{
+      font-size: 1rem;
+    }
+  }
+  button {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  .modal-header h2 {
+    font-size: 1rem;
+  }
+
+  .close-button {
+    font-size: 1.2rem;
+  }
+
+  .hands {
+    h3 {
+      font-size: 0.8em;
+    }
+    strong {
+      font-size: 0.8em;
+    }
+    /* flex-direction: column; */
+    /* align-items: center; */
+  }
+
+  .hand span {
+    width: 45px;
+    height: 67.5px;
+    font-size: 10px;
+  }
+
+  .chip-container {
+    flex-direction: column;
+    margin: 0.15rem;
+  }
+
+  .chip-circle {
+    width: 35px;
+    height: 35px;
+    font-size: 0.8rem;
+  }
+
+  .chip-button {
+    font-size: 0.8rem;
+    padding: 0.1rem 0.4rem;
+  }
+}

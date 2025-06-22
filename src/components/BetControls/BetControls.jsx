@@ -10,7 +10,7 @@ export default function BetControls({
     const betOptions = [5, 10, 25, 50, 100, 500, 1000];
 
     return (
-        <div className="bet-controls">
+        <div className="chip-controls">
             <div className="chips-row">
                 {betOptions.map((amount) => (
                     <Chip 
