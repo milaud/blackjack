@@ -1,5 +1,6 @@
 // import bookImage from './book.png'
 import './Book.css';
+import { useState } from 'react';
 import { getHandDisplay } from '../../utils/helpers';
 import { basicStrategyTable, getBlackjackStrategy } from '../../utils/book';
 
@@ -13,23 +14,25 @@ const StrategySection = ({ title, data, rowLabelPrefix, customOrder }) => {
     const rowKeys = customOrder ?? Object.keys(data);
 
     return (
-        <table>
-            <caption>{title}</caption>
-            <thead>
-                <tr>
-                    <th>Player</th>
-                    {dealerCards.map(card => <th key={card}>{card}</th>)}
-                </tr>
-            </thead>
-            <tbody>
-                {rowKeys.map(key => (
-                    <tr key={key}>
-                        <td>{rowLabelPrefix ? `${rowLabelPrefix}${key}` : key}</td>
-                        {data[key].map((val, i) => <Cell key={i} value={val} />)}
+        <div>
+            <table>
+                <caption>{title}</caption>
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        {dealerCards.map(card => <th key={card}>{card}</th>)}
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {rowKeys.map(key => (
+                        <tr key={key}>
+                            <td>{rowLabelPrefix ? `${rowLabelPrefix}${key}` : key}</td>
+                            {data[key].map((val, i) => <Cell key={i} value={val} />)}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
 };
 
@@ -45,7 +48,9 @@ const Legend = () => (
     </div>
 );
 
-const BlackjackTable = () => {
+const BlackjackTable = ({cards, initialIndex = 0}) => {
+    const [tableIndex, setTableIndex] = useState(initialIndex); // 0=hard, 1=soft, 2=pairs
+
     const hardOrder = Object.keys(basicStrategyTable.hard).sort((a, b) => {
         if (a === '≤ 7') return -1;
         if (b === '≤ 7') return 1;
@@ -61,22 +66,52 @@ const BlackjackTable = () => {
         };
         return parse(a) - parse(b);
     });
+
+    // useEffect(() => {
+    //     if (!cards?.player) return;
+    //     if (isPair(cards.player)) setTableIndex(2); // pairs
+    //     else if (isSoftHand(cards.player)) setTableIndex(1); // soft
+    //     else setTableIndex(0); // hard
+    // }, [cards]);
+
+    const tables = [
+        <StrategySection title="Hard Totals" data={basicStrategyTable.hard} customOrder={hardOrder} />,
+        <StrategySection title="Soft Totals" data={basicStrategyTable.soft} rowLabelPrefix="A," customOrder={softOrder} />,
+        <StrategySection title="Pairs" data={basicStrategyTable.pairs} rowLabelPrefix="" />
+    ]
+
+    const handleLeft = () => {
+        setTableIndex((prev) => (prev === 0 ? 2 : prev - 1));
+    };
+
+    const handleRight = () => {
+        setTableIndex((prev) => (prev === 2 ? 0 : prev + 1));
+    };
     return (
         <div className="container">
             <Legend />
-            <StrategySection title="Hard Totals" data={basicStrategyTable.hard} customOrder={hardOrder} />
-            <StrategySection title="Soft Totals" data={basicStrategyTable.soft} rowLabelPrefix="A," customOrder={softOrder} />
-            <StrategySection title="Pairs" data={basicStrategyTable.pairs} rowLabelPrefix="" />
+            <div className="book-navigation">
+                    <button className="nav-button" onClick={handleLeft}>◀</button>
+                    {/* <span className="table-title">{tableTypes[tableIndex].toUpperCase()} TABLE</span> */}
+                    {tables[tableIndex]}
+                    <button className="nav-button" onClick={handleRight}>▶</button>
+                </div>
         </div>
     );
 };
 
 export default function Book({ show, cards = null, onClose }) {
     if (!show) return null;
+    let initialIndex = 0;
     const strategyText = cards.dealer && cards.player
         ? getBlackjackStrategy(cards.dealer, cards.player)
         : '';
 
+    if (cards.dealer && cards.player) {
+        if (cards.player.length === 2 && cards.player[0].value === cards.player[1].value) initialIndex = 2;
+        else if (cards.player.some(card => card.value === 'A')) initialIndex = 1;
+    }
+    console.log(initialIndex)
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-box" onClick={(e) => e.stopPropagation()}>
@@ -98,7 +133,7 @@ export default function Book({ show, cards = null, onClose }) {
                 className="modal-image"
                 /> */}
 
-                <BlackjackTable />
+                <BlackjackTable cards={cards.player} initialIndex={initialIndex}/>
 
             </div>
         </div>

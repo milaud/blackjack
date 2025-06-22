@@ -17,9 +17,9 @@ export default function PlayerHand({ hand, bet, status=0, activeHand = false, sh
         ))}
         {isDealer && !showDealerCard ? <div><strong>{getHandDisplay(hand)}</strong></div> : null }
         {!isDealer ?
-          <div>
+          <div className='hand_info'>
             <strong>{getHandDisplay(hand)}</strong>
-            <p>${bet}</p>
+            <span>${bet}</span>
           </div>
           : null
         }

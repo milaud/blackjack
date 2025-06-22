@@ -11,6 +11,7 @@
   z-index: 1000;
   /* padding: 1rem; */
   width: 100%;
+  height: 100%;
   border-collapse: collapse;
   font-size: 0.75rem; /* Smaller font for mobile */
   table-layout: fixed;
@@ -118,10 +119,11 @@ table {
   border-collapse: collapse;
   margin: 20px 0;
   width: 100%;
-  max-width: 100%;
+  height: 100%;
+  /* max-width: 100%; */
   font-weight: bold;
-  /* overflow-x: auto;
-  display: block; */
+  /* overflow-x: auto; */
+  /* display: block; */
 }
 
 /* thead th {
@@ -156,6 +158,28 @@ td {
 .S { background-color: #8f8; color: black; }  /* Stand - Green */
 .D { background-color: #88f; color: white; }  /* Double - Blue */
 .P { background-color: #ff8; color: black; }  /* Split - Yellow */
+
+.book-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.nav-button {
+  background-color: #eee;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  margin: 0 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  /* transition: background 0.2s ease; */
+}
+
+.nav-button:hover {
+  background-color: #ddd;
+}
 
 /* For very small devices */
 @media screen and (max-width: 600px) {

@@ -39,6 +39,11 @@ button:hover:active {
   display: inline-flex;
 }
 
+.hand_info {
+  display: grid;
+  padding: 5px;
+}
+
 .count_items {
   display: inline-flex;
   align-items: center;
