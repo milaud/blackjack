@@ -172,9 +172,9 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
             newDealerHand.push(card);
             updateCount([card]);
             setDealerHand([...newDealerHand]);
-            await delay(duration);
         }
         setShoe(newShoe);
+        await delay(duration);
         const outcome = evaluateHands(playerHands, newDealerHand);
         setPlayerHands(outcome.updatedHands);
         setPlayerWins(prev => prev + outcome.playerWinCount);
