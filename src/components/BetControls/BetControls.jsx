@@ -1,3 +1,4 @@
+import './BetControls.css'
 import { Chip } from "./Chip";
 import { useState } from "react";
 

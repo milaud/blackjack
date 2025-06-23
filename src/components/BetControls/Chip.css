@@ -1,0 +1,74 @@
+/*
+
+chip-container
+chip-circle
+chip-{amount}
+chip-button
+
+*/
+
+.chip-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 8px;
+}
+
+/* .chip-button {
+  background-color: #eee;
+  border: none;
+  padding: 4px 8px;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 2px 0;
+} */
+
+.chip-circle {
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4px 0;
+  color: white;
+  user-select: none;
+  border: 2px solid transparent;
+}
+
+.chip-circle.selected {
+    border: 5px solid goldenrod;
+    box-shadow: 0 0 10px goldenrod;
+    transform: scale(1.1);
+    /* transition: transform 0.2s ease, box-shadow 0.2s ease; */
+}
+
+.chip-1   { background-color: white; }
+.chip-5   { background-color: red; }
+.chip-10   { background-color: green; }
+.chip-25  { background-color: blue; }
+.chip-50   { background-color: slategrey }
+.chip-100 { background-color: black; }
+.chip-500 { background-color: darkmagenta; }
+.chip-1000 { background-color: gold; }
+
+@media (max-width: 480px) {
+  .chip-container {
+    flex-direction: column;
+    margin: 0.15rem;
+  }
+
+  .chip-circle {
+    width: 35px;
+    height: 35px;
+    font-size: 0.8rem;
+  }
+
+  .chip-button {
+    font-size: 0.8rem;
+    padding: 0.1rem 0.4rem;
+  }
+
+}

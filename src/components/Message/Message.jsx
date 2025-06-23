@@ -1,4 +1,4 @@
-export default function Message ({dictionary={"message": "", "color": 0}}) {
+export default function Message({ dictionary = { "message": "", "color": 0 } }) {
     let color = dictionary.color
     let message = dictionary.message
     let resultColor = 'black'
@@ -10,7 +10,8 @@ export default function Message ({dictionary={"message": "", "color": 0}}) {
         resultColor = 'red'
     }
     return (
-        <h2 style={{ color: resultColor }}>{message}</h2>
-
+        <div>
+            {!message ? <h2 style={{ color: "black" }}>Blackjack</h2> : <h2 style={{ color: resultColor }}>{message}</h2>}
+        </div>
     )
 }

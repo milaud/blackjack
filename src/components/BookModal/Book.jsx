@@ -48,7 +48,7 @@ const Legend = () => (
     </div>
 );
 
-const BlackjackTable = ({cards, initialIndex = 0}) => {
+const BlackjackTable = ({ cards, initialIndex = 0 }) => {
     const [tableIndex, setTableIndex] = useState(initialIndex); // 0=hard, 1=soft, 2=pairs
 
     const hardOrder = Object.keys(basicStrategyTable.hard).sort((a, b) => {
@@ -84,11 +84,11 @@ const BlackjackTable = ({cards, initialIndex = 0}) => {
         <div className="container">
             <Legend />
             <div className="book-navigation">
-                    <button className="nav-button" onClick={handleLeft}>◀</button>
-                    {/* <span className="table-title">{tableTypes[tableIndex].toUpperCase()} TABLE</span> */}
-                    {tables[tableIndex]}
-                    <button className="nav-button" onClick={handleRight}>▶</button>
-                </div>
+                <button className="nav-button" onClick={handleLeft}>◀</button>
+                {/* <span className="table-title">{tableTypes[tableIndex].toUpperCase()} TABLE</span> */}
+                {tables[tableIndex]}
+                <button className="nav-button" onClick={handleRight}>▶</button>
+            </div>
         </div>
     );
 };
@@ -126,7 +126,7 @@ export default function Book({ show, cards = null, onClose }) {
                 className="modal-image"
                 /> */}
 
-                <BlackjackTable cards={cards.player} initialIndex={initialIndex}/>
+                <BlackjackTable cards={cards.player} initialIndex={initialIndex} />
 
             </div>
         </div>

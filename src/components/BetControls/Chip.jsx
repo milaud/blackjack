@@ -1,3 +1,5 @@
+import './Chip.css'
+
 export function Chip ({amount, selected, onClick}) {
     return (
         <div className="chip-container">

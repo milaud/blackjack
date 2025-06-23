@@ -13,7 +13,8 @@
   width: 100%;
   height: 100%;
   border-collapse: collapse;
-  font-size: 0.75rem; /* Smaller font for mobile */
+  font-size: 0.75rem;
+  /* Smaller font for mobile */
   table-layout: fixed;
 }
 
@@ -69,8 +70,15 @@
 } */
 
 @keyframes fadeIn {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .legend {
@@ -94,7 +102,7 @@
 .legend li {
   display: flex;
   align-items: center;
-  font-size: 0.9em;
+  /* font-size: 0.9em; */
 }
 
 .legend-box {
@@ -139,7 +147,8 @@ caption {
   margin-bottom: 8px;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #444;
   padding: 4px;
   text-align: center;
@@ -154,20 +163,42 @@ th {
 } */
 
 /* Color coding */
-.H { background-color: #f88; color: black; }  /* Hit - Red */
-.S { background-color: #ff8; color: black; }  /* Stand - Yellow */
-.D { background-color: #8f8; color: black; }  /* Double - Green */
-.P { background-color: #88f; color: black; }  /* Split - Blue */
+/* Hit - Red */
+.H {
+  background-color: #f88;
+  color: black;
+}
+
+/* Stand - Yellow */
+.S {
+  background-color: #ff8;
+  color: black;
+}
+
+/* Double - Green */
+.D {
+  background-color: #8f8;
+  color: black;
+}
+
+/* Split - Blue */
+.P {
+  background-color: #88f;
+  color: black;
+}
 
 .action-H {
-  color: #f88; 
+  color: #f88;
 }
+
 .action-S {
-  color: #ff8; 
+  color: #ff8;
 }
+
 .action-D {
-  color: #8f8; 
+  color: #8f8;
 }
+
 .action-P {
   color: #88f;
 }
@@ -194,7 +225,22 @@ th {
   background-color: #ddd;
 }
 
-/* For very small devices */
+@media (max-width: 768px) {
+  .modal-box {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .strategy-table th,
+  .strategy-table td {
+    font-size: 0.6rem;
+    padding: 2px;
+  }
+
+}
+
+/* For smaller devices */
 @media screen and (max-width: 600px) {
   .modal-box {
     /* width: 95%; */
@@ -210,10 +256,10 @@ th {
   .close-button {
     font-size: 1.2rem;
   }
-  
-  .legend {
+
+  /* .legend {
     font-size: 0.85em;
-  }
+  } */
 
   .legend-box {
     width: 20px;
@@ -226,8 +272,20 @@ th {
     font-size: 1.1em;
   }
 
-  th, td {
+  th,
+  td {
     padding: 6px;
     font-size: 0.85em;
   }
+}
+
+@media (max-width: 480px) {
+  .modal-header h2 {
+    font-size: 1rem;
+  }
+
+  .close-button {
+    font-size: 1.2rem;
+  }
+
 }

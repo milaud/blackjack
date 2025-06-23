@@ -1,4 +1,6 @@
-export default function CardCounter({countCards, runningCount, trueCount, shoeCount, toggleCountCards}) {
+import './CardCounter.css'
+
+export default function CardCounter({ countCards, runningCount, trueCount, shoeCount, toggleCountCards }) {
     return (
         <div className='count_items'>
             {countCards && (

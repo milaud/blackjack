@@ -1,0 +1,12 @@
+/*
+bet-controls
+chip-controls
+chips-row
+*/
+
+.chips-row {
+  display: flex;
+  justify-content: center;
+  margin: 8px;
+}
+

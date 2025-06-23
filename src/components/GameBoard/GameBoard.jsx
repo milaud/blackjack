@@ -6,6 +6,7 @@ import BetControls from '../BetControls/BetControls';
 
 import useBlackjackGame from '../../hooks/useBlackjackgame';
 import useBetting from '../../hooks/useBetting';
+import './GameBoard.css'
 
 import { GamePhases } from '../../constants/gamePhases';
 
@@ -118,7 +119,7 @@ export default function GameBoard({ numberOfDecks }) {
                             <h3>Player's Hand</h3>
                             <p>Total Bets: ${playerBet}</p>
                             <div className='player_hands'>
-                            {/* <div> */}
+                                {/* <div> */}
                                 {playerHands.map((hand, i) => (
                                     <PlayerHand key={i} hand={hand.cards} bet={hand.bet} activeHand={playerHands.length > 1 && activeHandIndex === i} />
                                 ))}
