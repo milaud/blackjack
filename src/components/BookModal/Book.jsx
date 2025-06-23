@@ -14,7 +14,8 @@ const StrategySection = ({ title, data, rowLabelPrefix, customOrder }) => {
     const rowKeys = customOrder ?? Object.keys(data);
 
     return (
-        <div className='book_table'>
+        // <div className='book_table'>
+        <div>
             <table>
                 <caption>{title}</caption>
                 <thead>
