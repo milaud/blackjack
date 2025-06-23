@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createShoe } from '../components/Shoe/Shoe';
 import { checkInitialBlackjack, evaluateHands } from '../utils/gameLogic';
-import { calculateHandValue, calculateWinLoss, getOutcomeType } from '../utils/helpers';
+import { calculateHandValue, calculateWinLoss } from '../utils/helpers';
 import useCardCounter from './useCardCounter';
 import { GamePhases } from '../constants/gamePhases';
 
