@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import PlayerHand from '../PlayerHand/PlayerHand';
 import Book from '../BookModal/Book'
@@ -16,6 +16,7 @@ import { GamePhases } from '../../constants/gamePhases';
 
 export default function GameBoard({ numberOfDecks, startingMoney }) {
     const [selectedChip, setSelectedChip] = useState(50);
+    const [trueCount, setTrueCount] = useState(0);
 
     const {
         playerMoney,
@@ -66,8 +67,9 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
         }
     } = useBlackjackGame(numberOfDecks, playerMoney, resolveBet, setPlayerMoney, setPlayerBet);
 
-    const decksRemaining = Math.ceil(shoe.length / 52);
-    const trueCount = (runningCount / decksRemaining).toFixed(2);
+    // const decksRemaining = Math.ceil(shoe.length / 52);
+    // const decksRemaining = shoe.length / 52;
+    // const trueCount = (runningCount / decksRemaining).toFixed(2);
 
     const handleDealClick = async () => {
         if (playerBet <= 0) return alert('Please place a bet first.');
@@ -79,6 +81,13 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
     const toggleCountCards = () => {
         setCountCards(!countCards);
     };
+
+    useEffect(() => {
+        if (shoe.length === 0) return;
+        const decksRemaining = shoe.length / 52;
+        const calculatedTrueCount = (runningCount / decksRemaining).toFixed(2);
+        setTrueCount(calculatedTrueCount);
+    }, [shoe, runningCount]);
 
     return (
         <div>

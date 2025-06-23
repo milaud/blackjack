@@ -19,7 +19,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
     const [deckCleared, setDeckCleared] = useState(false);
     const [gameHistory, setGameHistory] = useState([]);
     const [showStats, setShowStats] = useState(false);
-
+    // const [cutCardIndex, setCutCardIndex] = useState(shoe.length - Math.floor(shoe.length * (0.7 + Math.random() * 0.15)));
 
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     const duration = 850;
@@ -76,12 +76,14 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
     const dealCards = async (initialBet) => {
         setGamePhase(GamePhases.DEALING);
         let newShoe = [...shoe];
+        // if (shoe.length <= cutCardIndex) {
         if (shoe.length < 0.4 * 52 * numberOfDecks) {
             setResultMessage({ message: 'Reshuffling shoe...', color: 0 });
-            await delay(duration);
+            await delay(3000);
             newShoe = createShoe(numberOfDecks);
             setRunningCount(0);
             setResultMessage({ message: '', color: 0 });
+            // setCutCardIndex(newShoe.length - Math.floor(newShoe.length * (0.7 + Math.random() * 0.15)))
         }
 
         const playerCards = [];
@@ -119,7 +121,6 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
                 playerHands: [{
                     cards: [...outcome.updatedHand.cards],
                     bet: outcome.updatedHand.bet,
-                    // outcome: getOutcomeType([outcome.updatedHand]),
                     outcome: outcome.updatedHand.status,
                     net: calculateWinLoss([outcome.updatedHand]),
                 }],
@@ -198,19 +199,12 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         setResultMessage(outcome.result);
         setGamePhase(GamePhases.GAME_OVER);
         resolveBet(outcome.updatedHands);
-        // const newGameResult = {
-        //     playerHands: [...playerHands],
-        //     dealerHand: [...newDealerHand],
-        //     netResult: calculateWinLoss(outcome.updatedHands), // total net amount
-        //     outcomeType: getOutcomeType(outcome.updatedHands)  // 'win' | 'lose' | 'push' | 'mixed'
-        // };
         const newGameResult = {
             playerHands: outcome.updatedHands.map(h => ({
                 cards: h.cards,
                 bet: h.bet,
-                // outcome: getOutcomeType(outcome.updatedHands), // 'Win' | 'Lose' | 'Push'
                 outcome: h.status,
-                net: calculateWinLoss([h]), // expect single-hand version
+                net: calculateWinLoss([h]),
             })),
             dealerHand: newDealerHand,
         }
