@@ -5,7 +5,6 @@ export default function GameStats({ show, onClose, history }) {
     if (!show) return null;
 
     const getResultIcon = (result) => {
-        console.log(result)
         switch (result) {
             case 1: return '✅';
             case 1.5: return '💰';
