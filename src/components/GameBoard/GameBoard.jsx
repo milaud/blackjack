@@ -13,7 +13,7 @@ import './GameBoard.css'
 import { GamePhases } from '../../constants/gamePhases';
 
 
-export default function GameBoard({ numberOfDecks }) {
+export default function GameBoard({ numberOfDecks, startingMoney }) {
     const [selectedChip, setSelectedChip] = useState(50);
 
     const {
@@ -27,7 +27,7 @@ export default function GameBoard({ numberOfDecks }) {
         setBetPlaced,
         setPlayerBet,
         setPlayerMoney
-    } = useBetting(1000);
+    } = useBetting(startingMoney);
 
     const {
         state: {

@@ -1,0 +1,29 @@
+/*
+modal-overlay, modal-box, modal-header, 
+and close-button classes are shared
+with Book modal
+*/
+
+.modal-content label {
+    display: block;
+    margin: 1rem 0;
+}
+
+.modal-content input {
+    width: 95%;
+    padding: 0.4rem;
+    margin-top: 0.25rem;
+    font-size: 1rem;
+}
+
+.start-button {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0.6rem;
+    font-size: 1rem;
+    background-color: #008f5f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
