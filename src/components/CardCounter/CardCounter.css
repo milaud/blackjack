@@ -1,0 +1,21 @@
+.count_items {
+  display: inline;
+  align-items: center;
+  justify-content: center;
+}
+
+.count_items span::after {
+  content: ", ";
+}
+
+.count_items span:last-child::after {
+  content: "";
+}
+
+@media (max-width: 768px) {
+  
+}
+
+@media (max-width: 480px) {
+  
+}

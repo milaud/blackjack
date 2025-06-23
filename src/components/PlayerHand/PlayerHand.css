@@ -1,0 +1,16 @@
+/*
+hand
+hand_info
+*/
+
+.hand_info {
+  padding: 5px;
+}
+
+@media (max-width: 480px) {
+  .hand span {
+    width: 45px;
+    height: 67.5px;
+    font-size: 10px;
+  }
+}
