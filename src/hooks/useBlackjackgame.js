@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createShoe } from '../components/Shoe/Shoe';
 import { checkInitialBlackjack, evaluateHands } from '../utils/gameLogic';
-import { calculateHandValue } from '../utils/helpers';
+import { calculateHandValue, calculateWinLoss, getOutcomeType } from '../utils/helpers';
 import useCardCounter from './useCardCounter';
 import { GamePhases } from '../constants/gamePhases';
 
@@ -17,6 +17,9 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
     const [resultMessage, setResultMessage] = useState({});
     const [showBook, setShowBook] = useState(false);
     const [deckCleared, setDeckCleared] = useState(false);
+    const [gameHistory, setGameHistory] = useState([]);
+    const [showStats, setShowStats] = useState(false);
+
 
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     const duration = 850;
@@ -112,6 +115,19 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
             setResultMessage(outcome.result);
             setGamePhase(GamePhases.GAME_OVER);
             resolveBet([outcome.updatedHand]);
+            const newGameResult = {
+                playerHands: [{
+                    cards: [...outcome.updatedHand.cards],
+                    bet: outcome.updatedHand.bet,
+                    // outcome: getOutcomeType([outcome.updatedHand]),
+                    outcome: outcome.updatedHand.status,
+                    net: calculateWinLoss([outcome.updatedHand]),
+                }],
+                dealerHand: [...newDealerHand],
+            }
+            setGameHistory(prev => [
+                ...prev, newGameResult
+            ]);
             return;
         }
 
@@ -176,12 +192,32 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         setShoe(newShoe);
         await delay(duration);
         const outcome = evaluateHands(playerHands, newDealerHand);
+        console.log(outcome)
         setPlayerHands(outcome.updatedHands);
         setPlayerWins(prev => prev + outcome.playerWinCount);
         setDealerWins(prev => prev + outcome.dealerWinCount);
         setResultMessage(outcome.result);
         setGamePhase(GamePhases.GAME_OVER);
         resolveBet(outcome.updatedHands);
+        // const newGameResult = {
+        //     playerHands: [...playerHands],
+        //     dealerHand: [...newDealerHand],
+        //     netResult: calculateWinLoss(outcome.updatedHands), // total net amount
+        //     outcomeType: getOutcomeType(outcome.updatedHands)  // 'win' | 'lose' | 'push' | 'mixed'
+        // };
+        const newGameResult = {
+            playerHands: outcome.updatedHands.map(h => ({
+                cards: h.cards,
+                bet: h.bet,
+                // outcome: getOutcomeType(outcome.updatedHands), // 'Win' | 'Lose' | 'Push'
+                outcome: h.status,
+                net: calculateWinLoss([h]), // expect single-hand version
+            })),
+            dealerHand: newDealerHand,
+        }
+        setGameHistory(prev => [
+            ...prev, newGameResult
+        ]);
     };
 
     const canSplit = () => {
@@ -242,13 +278,15 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
             activeHandIndex,
             gamePhase,
             showDealerCard,
+            gameHistory,
             playerWins,
             dealerWins,
             resultMessage,
             countCards,
             runningCount,
             showBook,
-            deckCleared
+            deckCleared,
+            showStats
         },
         actions: {
             dealCards,
@@ -265,7 +303,8 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         },
         setters: {
             setCountCards,
-            setShowBook
+            setShowBook,
+            setShowStats
         }
     };
 }

@@ -5,6 +5,7 @@ import Book from '../BookModal/Book'
 import Message from '../Message/Message';
 import CardCounter from '../CardCounter/CardCounter';
 import BetControls from '../BetControls/BetControls';
+import GameStats from "../GameStats/GameStats";
 
 import useBlackjackGame from '../../hooks/useBlackjackgame';
 import useBetting from '../../hooks/useBetting';
@@ -37,13 +38,13 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
             activeHandIndex,
             gamePhase,
             showDealerCard,
-            playerWins,
-            dealerWins,
+            gameHistory,
             resultMessage,
             countCards,
             runningCount,
             showBook,
-            deckCleared
+            deckCleared,
+            showStats
         },
         actions: {
             dealCards,
@@ -60,11 +61,10 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
         },
         setters: {
             setCountCards,
-            setShowBook
+            setShowBook,
+            setShowStats
         }
     } = useBlackjackGame(numberOfDecks, playerMoney, resolveBet, setPlayerMoney, setPlayerBet);
-
-
 
     const decksRemaining = Math.ceil(shoe.length / 52);
     const trueCount = (runningCount / decksRemaining).toFixed(2);
@@ -84,7 +84,17 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
         <div>
             <div className='game_info'>
                 <Message dictionary={resultMessage} />
-                <p>Player Wins: {playerWins} | Dealer Wins: {dealerWins}</p>
+                <button className="stats-button" onClick={() => setShowStats(true)}>
+                    📊 Game Stats
+                </button>
+                {showStats && (
+                    <GameStats
+                        show={showStats}
+                        history={gameHistory} // or whatever prop/state you're using to track past hands
+                        onClose={() => setShowStats(false)}
+                    />
+                )}
+
             </div>
             <CardCounter countCards={countCards} runningCount={runningCount} trueCount={trueCount} shoeCount={shoe.length} toggleCountCards={toggleCountCards} />
             <div className='book_items'>

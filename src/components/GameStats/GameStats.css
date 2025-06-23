@@ -1,0 +1,29 @@
+.stats-modal {
+  width: 95%;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.stats-table th, .stats-table td {
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.stats-table th {
+  background-color: #f5f5f5;
+}
+
+.win_info span::after {
+  content: " | ";
+}
+
+.win_info span:last-child::after {
+  content: "";
+}

@@ -13,7 +13,7 @@ export function checkInitialBlackjack(playerHandObj, dealerHand) {
             status = 0;
         } else if (playerTotal === 21) {
             result = { message: 'Blackjack! Player wins!', color: 1 };
-            status = 1;
+            status = 1.5;
         } else {
             result = { message: 'Dealer has Blackjack!', color: -1 };
             status = -1;

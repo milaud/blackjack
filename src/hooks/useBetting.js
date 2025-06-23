@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { calculateResultAmount } from '../utils/helpers';
 
 export default function useBetting(initialMoney = 1000) {
   const [playerMoney, setPlayerMoney] = useState(initialMoney);
@@ -31,15 +32,7 @@ export default function useBetting(initialMoney = 1000) {
   };
 
   const resolveBet = (playerHands) => {
-    // TODO: blackjacks should pay 1.5
-    let amountWon = 0;
-    playerHands.forEach(hand => {
-        if (hand.status === 0) {
-            amountWon += hand.bet
-        } else if (hand.status === 1) {
-            amountWon += hand.bet * 2;
-        }
-    });
+    const amountWon = calculateResultAmount(playerHands)
     setPlayerMoney((prev) => prev + amountWon);
     setPlayerBet(0);
     setBetPlaced(false);
