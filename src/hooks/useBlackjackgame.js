@@ -167,11 +167,12 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         let newDealerHand = [...dealerHand];
 
         while (calculateHandValue(newDealerHand) < 17) {
-            await delay(1000);
+            await delay(duration);
             const card = newShoe.pop();
             newDealerHand.push(card);
             updateCount([card]);
             setDealerHand([...newDealerHand]);
+            await delay(duration);
         }
         setShoe(newShoe);
         const outcome = evaluateHands(playerHands, newDealerHand);
