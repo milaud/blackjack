@@ -106,7 +106,7 @@ function actionName(letter) {
     switch (letter) {
         case 'H': return 'Hit';
         case 'S': return 'Stand';
-        case 'D': return 'Double Down if allowed, else Hit';
+        case 'D': return 'Double Down if allowed, otherwise Hit';
         case 'P': return 'Split';
         default: return 'Unknown action';
     }

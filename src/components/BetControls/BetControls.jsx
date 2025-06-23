@@ -1,17 +1,17 @@
 import './BetControls.css'
 import { Chip } from "./Chip";
-import { useState } from "react";
 
 export default function BetControls({
     playerMoney,
     playerBet,
     placeBet,
     reduceBet,
-    clearBet
+    clearBet,
+    selectedChip,
+    setSelectedChip
 }) {
     // const betOptions = [1, 5, 10, 25, 50, 100, 500, 1000];
     const betOptions = [5, 10, 25, 50, 100, 500, 1000];
-    const [selectedChip, setSelectedChip] = useState(betOptions[3]);
 
     return (
         <div className="bet-controls">

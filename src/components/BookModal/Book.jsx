@@ -104,7 +104,7 @@ export default function Book({ show, cards = null, onClose }) {
 
     if (cards.dealer && cards.player) {
         if (cards.player.length === 2 && cards.player[0].value === cards.player[1].value) initialIndex = 2;
-        else if (cards.player.some(card => card.value === 'A')) initialIndex = 1;
+        else if (cards.player.some(card => card.value === 'A') && getHandDisplay(cards.player).includes('/')) initialIndex = 1;
     }
     return (
         <div className="modal-overlay" onClick={onClose}>
@@ -117,7 +117,7 @@ export default function Book({ show, cards = null, onClose }) {
                     <div>
                         <p>Dealer's showing: {cards.dealer.value}</p>
                         <p>You have: {cards.player.map(card => card.value).join(", ")} ({getHandDisplay(cards.player)})</p>
-                        <p>Basic strategy says to <strong>{strategyText}</strong> on {handType[initialIndex]} {getHandDisplay(cards.player)}</p>
+                        <p>Basic strategy says to <strong>{strategyText}</strong> on {handType[initialIndex]} {getHandDisplay(cards.player)}.</p>
                     </div>
                     : <div></div>
                 }

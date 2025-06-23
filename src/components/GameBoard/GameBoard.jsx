@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import PlayerHand from '../PlayerHand/PlayerHand';
 import Book from '../BookModal/Book'
 import Message from '../Message/Message';
@@ -12,6 +14,7 @@ import { GamePhases } from '../../constants/gamePhases';
 
 
 export default function GameBoard({ numberOfDecks }) {
+    const [selectedChip, setSelectedChip] = useState(50);
 
     const {
         playerMoney,
@@ -101,7 +104,8 @@ export default function GameBoard({ numberOfDecks }) {
                             placeBet={placeBet}
                             reduceBet={reduceBet}
                             clearBet={clearBet}
-                            onConfirmBet={handleDealClick}
+                            selectedChip={selectedChip}
+                            setSelectedChip={setSelectedChip}
                         />
                     )}
                     {gamePhase === GamePhases.GAME_OVER && !deckCleared && <button onClick={clearDeck}>Clear Deck</button>}
