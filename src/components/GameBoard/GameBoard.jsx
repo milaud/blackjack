@@ -101,7 +101,8 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
                 <button onClick={() => setShowBook(true)}>What does the Book say?</button>
                 <Book
                     show={showBook}
-                    cards={{ "dealer": dealerHand.at(-1), "player": playerHands[activeHandIndex]?.cards }}
+                    // cards={{ "dealer": dealerHand.at(-1), "player": playerHands[activeHandIndex]?.cards }}
+                    cards={{ "dealer": dealerHand[1], "player": playerHands[activeHandIndex]?.cards }}
                     onClose={() => setShowBook(false)}
                 />
             </div>

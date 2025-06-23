@@ -1,7 +1,7 @@
 // import bookImage from './book.png'
 import './Book.css';
 import { useState } from 'react';
-import { getHandDisplay } from '../../utils/helpers';
+import { getHandDisplay, calculateHandValue } from '../../utils/helpers';
 import { basicStrategyTable, getBlackjackStrategy } from '../../utils/book';
 
 const dealerCards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'A'];
@@ -117,7 +117,8 @@ export default function Book({ show, cards = null, onClose }) {
                     <div>
                         <p>Dealer's showing: {cards.dealer.value}</p>
                         <p>You have: {cards.player.map(card => card.value).join(", ")} ({getHandDisplay(cards.player)})</p>
-                        <p>Basic strategy says to <strong>{strategyText}</strong> on {handType[initialIndex]} {getHandDisplay(cards.player)}.</p>
+                        {calculateHandValue(cards.player) <= 21 && 
+                        <p>Basic strategy says to <strong>{strategyText}</strong> on {handType[initialIndex]} {initialIndex === 2 ? `${cards.player[0].value}'s` : getHandDisplay(cards.player)}.</p>}
                     </div>
                     : <div></div>
                 }

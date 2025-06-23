@@ -1,4 +1,4 @@
-import { calculateHandValue } from "./helpers";
+import { calculateHandValue, getHandDisplay } from "./helpers";
 
 export const basicStrategyTable = {
     // Rows: Player's hand total or soft/hard notation
@@ -61,14 +61,15 @@ const dealerValueIndex = (dealerCardValue) => {
 }
 
 export function getBlackjackStrategy(dealerCard, playerCards) {
-    if (!dealerCard || !playerCards.length) return 'No data to give advice';
+    if (!dealerCard || !playerCards.length) return;
 
     const dealerIndex = dealerValueIndex(dealerCard.value);
     const handValues = playerCards.map(c => c.value);
 
     // Check if pair
     if (playerCards.length === 2 && handValues[0] === handValues[1]) {
-        const val = handValues[0] === 'A' ? 11 : parseInt(handValues[0]) || (handValues[0] === 'A' ? 11 : 0);
+        const val = handValues[0] === 'A' ? 11 : parseInt(handValues[0]) || (handValues[1] === 'A' ? 'A' : 0);
+        // const val = handValues[0] === 'A' ? 'A' : parseInt(handValues[0]);
         const pairRow = basicStrategyTable.pairs[val];
         if (pairRow) {
             return actionName(pairRow[dealerIndex]);
@@ -78,7 +79,7 @@ export function getBlackjackStrategy(dealerCard, playerCards) {
     // Check if soft hand (has Ace counted as 11)
     const containsAce = handValues.includes('A');
     const handTotal = calculateHandValue(playerCards)
-    if (containsAce && handTotal <= 21) {
+    if (containsAce && handTotal <= 21 && getHandDisplay(playerCards).includes("/")) {
         // Soft total
         let softRow;
         if (handTotal >= 19) {
