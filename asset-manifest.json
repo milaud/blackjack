@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/blackjack/static/css/main.b7781d2d.css",
-    "main.js": "/blackjack/static/js/main.cbc24a25.js",
+    "main.css": "/blackjack/static/css/main.ac1548f7.css",
+    "main.js": "/blackjack/static/js/main.298c385e.js",
     "static/js/453.3a059cf8.chunk.js": "/blackjack/static/js/453.3a059cf8.chunk.js",
     "index.html": "/blackjack/index.html",
-    "main.b7781d2d.css.map": "/blackjack/static/css/main.b7781d2d.css.map",
-    "main.cbc24a25.js.map": "/blackjack/static/js/main.cbc24a25.js.map",
+    "main.ac1548f7.css.map": "/blackjack/static/css/main.ac1548f7.css.map",
+    "main.298c385e.js.map": "/blackjack/static/js/main.298c385e.js.map",
     "453.3a059cf8.chunk.js.map": "/blackjack/static/js/453.3a059cf8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b7781d2d.css",
-    "static/js/main.cbc24a25.js"
+    "static/css/main.ac1548f7.css",
+    "static/js/main.298c385e.js"
   ]
 }
