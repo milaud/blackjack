@@ -141,12 +141,12 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
                         </div>
                     )}
                     {gamePhase === GamePhases.PLAYER_TURN && (
-                        // <div className="action_buttons">
-                        <div>
+                        <div className="action_buttons">
+                        {/* <div> */}
                             <button onClick={() => hit(false)}>Hit</button>
                             {canDoubleDown && <button onClick={doubleDown}>Double Down</button>}
-                            <button onClick={stand}>Stand</button>
                             {canSplit && <button onClick={handleSplit}>Split</button>}
+                            <button onClick={stand}>Stand</button>
                         </div>
                     )}
                 </div>

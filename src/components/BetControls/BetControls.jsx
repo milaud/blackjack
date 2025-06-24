@@ -29,7 +29,7 @@ export default function BetControls({
                     />
                 ))}
             </div>
-            <div className="chip-controls">
+            <div className="chip-controls action_buttons">
                 <button onClick={() => reduceBet(selectedChip)} disabled={playerBet < selectedChip}>
                     -
                 </button>
