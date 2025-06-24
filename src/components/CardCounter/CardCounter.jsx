@@ -10,9 +10,6 @@ export default function CardCounter({ countCards, runningCount, trueCount, shoeC
                     <span>Shoe count: {shoeCount}</span>
                 </div>
             )}
-            <button onClick={toggleCountCards}>
-                {countCards ? 'Hide' : 'Show Card Counter'}
-            </button>
         </div>
     );
 }

@@ -10,3 +10,14 @@ chips-row
   margin: 8px;
 }
 
+/* @media (max-width: 480px) {
+
+.bet_controls {
+    margin-top: 4rem;
+  }
+
+  .chips-row {
+    flex-wrap: wrap; 
+    row-gap: 0.25rem;
+  }
+} */

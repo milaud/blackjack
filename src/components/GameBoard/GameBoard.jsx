@@ -91,79 +91,82 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
 
     return (
         <div>
-            <div className='game_info'>
+            <div className="game_info">
                 <Message dictionary={resultMessage} />
-                <button className="stats-button" onClick={() => setShowStats(true)}>
-                    📊 Game Stats
-                </button>
-                {showStats && (
-                    <GameStats
-                        show={showStats}
-                        history={gameHistory} // or whatever prop/state you're using to track past hands
-                        onClose={() => setShowStats(false)}
-                    />
-                )}
-
+                <CardCounter countCards={countCards} runningCount={runningCount} trueCount={trueCount} shoeCount={shoe.length} toggleCountCards={toggleCountCards} />
             </div>
-            <CardCounter countCards={countCards} runningCount={runningCount} trueCount={trueCount} shoeCount={shoe.length} toggleCountCards={toggleCountCards} />
-            <div className='book_items'>
-                <button onClick={() => setShowBook(true)}>What does the Book say?</button>
-                <Book
-                    show={showBook}
-                    // cards={{ "dealer": dealerHand.at(-1), "player": playerHands[activeHandIndex]?.cards }}
-                    cards={{ "dealer": dealerHand[1], "player": playerHands[activeHandIndex]?.cards }}
-                    onClose={() => setShowBook(false)}
-                />
+            <div className='bottom-right-buttons'>
+                <button onClick={() => setShowBook(true)}>♠️</button>
+                <button onClick={toggleCountCards}>🃏</button>
+                <button className="stats-button" onClick={() => setShowStats(true)}>📊</button>
             </div>
-            <div className="game_board">
-                <div className='bet_controls'>
-                    {!betPlaced && (
-                        <BetControls
-                            playerMoney={playerMoney}
-                            playerBet={playerBet}
-                            placeBet={placeBet}
-                            reduceBet={reduceBet}
-                            clearBet={clearBet}
-                            selectedChip={selectedChip}
-                            setSelectedChip={setSelectedChip}
-                        />
-                    )}
-                    {gamePhase === GamePhases.GAME_OVER && !deckCleared && <button onClick={clearDeck}>Clear Deck</button>}
-                    {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER)
-                        &&
-                        <button onClick={handleDealClick} disabled={playerBet === 0}>Deal</button>}
-                </div>
-                {(!deckCleared && gamePhase !== GamePhases.START) && (
-                    <div className='hands'>
+            <div className="game_container">
+                <div className="game_board">
+                    <div className='bet_controls'>
+                        {!betPlaced && (
+                            <BetControls
+                                playerMoney={playerMoney}
+                                playerBet={playerBet}
+                                placeBet={placeBet}
+                                reduceBet={reduceBet}
+                                clearBet={clearBet}
+                                selectedChip={selectedChip}
+                                setSelectedChip={setSelectedChip}
+                            />
+                        )}
                         <div>
-                            <h3>Dealer's Hand</h3>
-                            <PlayerHand hand={dealerHand} isDealer={true} showDealerCard={!showDealerCard} />
+                            {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER) && <span>Current Bet: ${playerBet}</span>}
                         </div>
-                        <div>
-                            <h3>Player's Hand</h3>
-                            <p>Total Bets: ${playerBet}</p>
-                            <div className='player_hands'>
-                                {/* <div> */}
-                                {playerHands.map((hand, i) => (
-                                    <PlayerHand key={i} hand={hand.cards} bet={hand.bet} activeHand={playerHands.length > 1 && activeHandIndex === i} />
-                                ))}
+                        {gamePhase === GamePhases.GAME_OVER && !deckCleared && <button onClick={clearDeck}>Clear Deck</button>}
+                        {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER)
+                            &&
+                            <button onClick={handleDealClick} disabled={playerBet === 0}>Deal</button>}
+                    </div>
+                    {(!deckCleared && gamePhase !== GamePhases.START) && (
+                        <div className='hands'>
+                            <div className="dealer_section fixed-card-area">
+                                <h3>Dealer's Hand</h3>
+                                <PlayerHand hand={dealerHand} isDealer={true} showDealerCard={!showDealerCard} />
+                            </div>
+                            <div className="player_section fixed-card-area">
+                                <h3>Player's Hand</h3>
+                                <p>Total Bets: ${playerBet}</p>
+                                <div className='player_hands'>
+                                    {/* <div> */}
+                                    {playerHands.map((hand, i) => (
+                                        <PlayerHand key={i} hand={hand.cards} bet={hand.bet} activeHand={playerHands.length > 1 && activeHandIndex === i} />
+                                    ))}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                )}
-                {gamePhase === GamePhases.PLAYER_TURN && (
-                    <div>
-                        <button onClick={() => hit(false)}>Hit</button>
-                        {canDoubleDown && <button onClick={doubleDown}>Double Down</button>}
-                        <button onClick={stand}>Stand</button>
-                        {canSplit && <button onClick={handleSplit}>Split</button>}
-                    </div>
-                )}
+                    )}
+                    {gamePhase === GamePhases.PLAYER_TURN && (
+                        // <div className="action_buttons">
+                        <div>
+                            <button onClick={() => hit(false)}>Hit</button>
+                            {canDoubleDown && <button onClick={doubleDown}>Double Down</button>}
+                            <button onClick={stand}>Stand</button>
+                            {canSplit && <button onClick={handleSplit}>Split</button>}
+                        </div>
+                    )}
+                </div>
+                <div className='player_bank_info'>
+                    <span>Total Bankroll: ${playerMoney}</span>
+                </div>
             </div>
-            <div className='player_bank_info'>
-                <span>Total Bankroll: ${playerMoney}</span>
-                {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER) && <span>Current Bet: ${playerBet}</span>}
-            </div>
+            {showStats && (
+                <GameStats
+                    show={showStats}
+                    history={gameHistory} // or whatever prop/state you're using to track past hands
+                    onClose={() => setShowStats(false)}
+                />
+            )}
+            <Book
+                show={showBook}
+                // cards={{ "dealer": dealerHand.at(-1), "player": playerHands[activeHandIndex]?.cards }}
+                cards={{ "dealer": dealerHand[1], "player": playerHands[activeHandIndex]?.cards }}
+                onClose={() => setShowBook(false)}
+            />
         </div>
     );
 }

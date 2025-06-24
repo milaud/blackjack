@@ -15,34 +15,28 @@ export default function BetControls({
 
     return (
         <div className="bet-controls">
-            <div className="chip-controls">
-                <button 
-                    onClick={() => reduceBet(selectedChip)} 
-                    disabled={playerBet < selectedChip}
-                >
-                    -
-                </button>
-                <button 
-                    onClick={() => placeBet(selectedChip)} 
-                    disabled={playerMoney < selectedChip}
-                >
-                    +
-                </button>
-            </div>
+            <button onClick={() => clearBet()} disabled={playerBet === 0}>
+                Clear Bet
+            </button>
             <div className="chips-row">
                 {betOptions.map((amount) => (
-                    <Chip 
-                        key={amount} 
-                        amount={amount} 
-                        playerMoney={playerMoney} 
+                    <Chip
+                        key={amount}
+                        amount={amount}
+                        playerMoney={playerMoney}
                         selected={selectedChip === amount}
                         onClick={() => setSelectedChip(amount)}
                     />
                 ))}
             </div>
-            <button onClick={() => clearBet()} disabled={playerBet === 0}>
-                Clear Bet
-            </button>
+            <div className="chip-controls">
+                <button onClick={() => reduceBet(selectedChip)} disabled={playerBet < selectedChip}>
+                    -
+                </button>
+                <button onClick={() => placeBet(selectedChip)} disabled={playerMoney < selectedChip}>
+                    +
+                </button>
+            </div>
         </div>
     );
 }

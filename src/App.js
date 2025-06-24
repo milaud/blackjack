@@ -18,7 +18,10 @@ function App() {
 
   return (
     <div>
+      {/* <div className='top-right-buttons'> */}
       <button className="settings-button" onClick={() => setShowSettings(true)}>⚙️</button>
+      {/* <button className="top-right-buttons" onClick={() => setShowSettings(true)}>⚙️</button> */}
+      {/* <button onClick={() => setShowSettings(true)}>⚙️</button> */}
       <Settings
         show={showSettings}
         onClose={() => setShowSettings(false)}
@@ -26,6 +29,7 @@ function App() {
         defaultDecks={numberOfDecks}
         defaultBuyIn={buyInAmount}
       />
+      {/* </div> */}
       <GameBoard key={gameKey} numberOfDecks={numberOfDecks} startingMoney={buyInAmount} />
 
     </div>
