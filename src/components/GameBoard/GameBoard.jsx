@@ -96,9 +96,9 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
                 <CardCounter countCards={countCards} runningCount={runningCount} trueCount={trueCount} shoeCount={shoe.length} toggleCountCards={toggleCountCards} />
             </div>
             <div className='bottom-right-buttons'>
-                <button onClick={() => setShowBook(true)}>♠️</button>
-                <button onClick={toggleCountCards}>🃏</button>
-                <button className="stats-button" onClick={() => setShowStats(true)}>📊</button>
+                <button onClick={() => setShowBook(true)} title="Show Strategy Book">♠️</button>
+                <button onClick={toggleCountCards} title="Toggle Card Counting Info">🃏</button>
+                <button className="stats-button" onClick={() => setShowStats(true)} title="Show Hand History">📊</button>
             </div>
             <div className="game_container">
                 <div className="game_board">
