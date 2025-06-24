@@ -12,8 +12,6 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
     const [dealerHand, setDealerHand] = useState([]);
     const [gamePhase, setGamePhase] = useState(GamePhases.START);
     const [showDealerCard, setShowDealerCard] = useState(false);
-    const [playerWins, setPlayerWins] = useState(0);
-    const [dealerWins, setDealerWins] = useState(0);
     const [resultMessage, setResultMessage] = useState({});
     const [showBook, setShowBook] = useState(false);
     const [deckCleared, setDeckCleared] = useState(false);
@@ -194,8 +192,6 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         await delay(duration);
         const outcome = evaluateHands(playerHands, newDealerHand);
         setPlayerHands(outcome.updatedHands);
-        setPlayerWins(prev => prev + outcome.playerWinCount);
-        setDealerWins(prev => prev + outcome.dealerWinCount);
         setResultMessage(outcome.result);
         setGamePhase(GamePhases.GAME_OVER);
         resolveBet(outcome.updatedHands);
@@ -272,8 +268,6 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
             gamePhase,
             showDealerCard,
             gameHistory,
-            playerWins,
-            dealerWins,
             resultMessage,
             countCards,
             runningCount,

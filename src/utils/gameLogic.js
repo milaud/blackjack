@@ -68,8 +68,6 @@ export function evaluateHands(playerHands, dealerHand) {
 
     return {
         updatedHands,
-        playerWinCount,
-        dealerWinCount,
         result
     };
 }
