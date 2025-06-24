@@ -29,7 +29,7 @@ export default function GameStats({ show, onClose, history }) {
                     <button className="close-button" onClick={onClose}>×</button>
                 </div>
                 <div className='win_info'>
-                    <span>Wins: {history.flatMap(h => h.playerHands).filter(h => h.outcome === 1).length}</span>
+                    <span>Wins: {history.flatMap(h => h.playerHands).filter(h => h.outcome >= 1).length}</span>
                     <span>Losses: {history.flatMap(h => h.playerHands).filter(h => h.outcome === -1).length}</span>
                     <span>Pushes: {history.flatMap(h => h.playerHands).filter(h => h.outcome === 0).length}</span>
                 </div>

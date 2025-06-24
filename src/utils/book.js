@@ -68,8 +68,7 @@ export function getBlackjackStrategy(dealerCard, playerCards) {
 
     // Check if pair
     if (playerCards.length === 2 && handValues[0] === handValues[1]) {
-        const val = handValues[0] === 'A' ? 11 : parseInt(handValues[0]) || (handValues[1] === 'A' ? 'A' : 0);
-        // const val = handValues[0] === 'A' ? 'A' : parseInt(handValues[0]);
+        const val = handValues[0] === 'A' ? 'A' : parseInt(handValues[0]);
         const pairRow = basicStrategyTable.pairs[val];
         if (pairRow) {
             return actionName(pairRow[dealerIndex]);
