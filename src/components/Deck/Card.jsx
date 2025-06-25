@@ -29,6 +29,7 @@ export default function Card({ value, suit, hidden }) {
   return (
     <div className={`card-wrapper ${hidden ? 'flipped' : ''}`}>
       <div className="card-inner">
+        {!hidden ? (
         <div className="card card-front">
           <div className={`corner top-left ${color}`}>
             {value}<br />{suit}
@@ -40,6 +41,9 @@ export default function Card({ value, suit, hidden }) {
             {suit}
           </div>
         </div>
+        ) : (
+          <div className="card card-front" />
+        )}
         <div className="card card-back">
           {/* Simple patterned back */}
           <div className="back-pattern">🂠</div>
