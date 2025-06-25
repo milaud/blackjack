@@ -14,7 +14,8 @@
 }
 
 .fixed-card-area {
-  min-height: 130px; /* adjust to match card height */
+  min-height: 130px;
+  /* adjust to match card height */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,7 +25,8 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   /* padding: 1rem; */
-  margin: 1rem auto;
+  /* margin: 1rem auto; */
+  margin: 0.5rem auto;
   width: fit-content;
   min-width: 300px;
 }
@@ -34,7 +36,8 @@
 }
 
 .player_hands {
-  min-height: 90px; /* ensures space even before cards are dealt */
+  min-height: 90px;
+  /* ensures space even before cards are dealt */
   display: flex;
   justify-content: center;
   /* gap: 0.5rem; */
@@ -49,6 +52,36 @@
   /* leave space for action buttons */
 }
 
+.vegas-button {
+  background: linear-gradient(to bottom, #2f2f2f, #1c1c1c);
+  color: #f9d342;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 2px solid #a1862f;
+  border-radius: 8px;
+  /* padding: 0.6rem 1.2rem; */
+  text-shadow: 1px 1px 2px #000;
+  box-shadow: inset 0 0 3px #000, 0 4px 6px rgba(0, 0, 0, 0.6);
+  transition: all 0.2s ease;
+  font-family: 'Georgia', serif;
+}
+
+.vegas-button:hover {
+  background: linear-gradient(to bottom, #3d3d3d, #222);
+  box-shadow: 0 0 10px rgba(249, 211, 66, 0.4);
+  cursor: pointer;
+}
+
+.vegas-button:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.vegas-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(60%);
+}
 
 /* .game_info {
   padding-top: 10px;
@@ -69,7 +102,7 @@
     padding-top: 10px;
     padding-bottom: 10px;
   }
-  
+
   .game_info h2 {
     font-size: 1rem;
   }
@@ -89,7 +122,13 @@
 
   .action_buttons {
     display: inline-flex;
-    gap: 2.5rem;
+    gap: 0.75rem;
+    /* font-size: 0.75rem; */
+    padding: 0.3rem 0.6rem;
+  }
+
+  .vegas-button {
+    font-size: 0.8rem;
   }
 
 }

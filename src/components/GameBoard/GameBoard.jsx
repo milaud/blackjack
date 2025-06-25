@@ -17,6 +17,7 @@ import { GamePhases } from '../../constants/gamePhases';
 export default function GameBoard({ numberOfDecks, startingMoney }) {
     const [selectedChip, setSelectedChip] = useState(50);
     const [trueCount, setTrueCount] = useState(0);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
 
     const {
         playerMoney,
@@ -89,6 +90,14 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
         setTrueCount(calculatedTrueCount);
     }, [shoe, runningCount]);
 
+    useEffect(() => {
+        function handleResize() {
+            setIsMobile(window.innerWidth <= 480);
+        }
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <div>
             <div className="game_info">
@@ -103,7 +112,7 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
             <div className="game_container">
                 <div className="game_board">
                     <div className='bet_controls'>
-                        {!betPlaced && (
+                        {(gamePhase === GamePhases.START || deckCleared) && !betPlaced && (
                             <BetControls
                                 playerMoney={playerMoney}
                                 playerBet={playerBet}
@@ -117,10 +126,10 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
                         <div className="current_bet">
                             {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER) && <span>Current Bet: ${playerBet}</span>}
                         </div>
-                        {gamePhase === GamePhases.GAME_OVER && !deckCleared && <button onClick={clearDeck}>Clear Deck</button>}
+                        {gamePhase === GamePhases.GAME_OVER && !deckCleared && <button className="vegas-button" onClick={clearDeck}>Clear Deck</button>}
                         {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER)
                             &&
-                            <button onClick={handleDealClick} disabled={playerBet === 0}>Deal</button>}
+                            <button className="vegas-button" onClick={handleDealClick} disabled={playerBet === 0}>Deal</button>}
                     </div>
                     {(!deckCleared && gamePhase !== GamePhases.START) && (
                         <div className='hands'>
@@ -142,11 +151,11 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
                     )}
                     {gamePhase === GamePhases.PLAYER_TURN && (
                         <div className="action_buttons">
-                        {/* <div> */}
-                            <button onClick={() => hit(false)}>Hit</button>
-                            {canDoubleDown && <button onClick={doubleDown}>Double Down</button>}
-                            {canSplit && <button onClick={handleSplit}>Split</button>}
-                            <button onClick={stand}>Stand</button>
+                            {/* <div> */}
+                            <button className="vegas-button" onClick={() => hit(false)}>Hit</button>
+                            {canDoubleDown && <button id="double_down" className="vegas-button" onClick={doubleDown}>{isMobile ? '2x' : 'Double Down'}</button>}
+                            {canSplit && <button className="vegas-button" onClick={handleSplit}>Split</button>}
+                            <button className="vegas-button" onClick={stand}>Stand</button>
                         </div>
                     )}
                 </div>

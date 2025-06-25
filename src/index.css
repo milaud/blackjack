@@ -51,7 +51,8 @@ button:hover:active {
   /* background-color: #fff; */
   background: radial-gradient(circle at center, #1b5e20, #0d3c16);
   /* color: #fff; */
-  color: #f5f5dc;       /* ivory text for contrast */
+  color: #f5f5dc;
+  /* ivory text for contrast */
   border: 2px solid gold;
   max-width: 500px;
   max-height: 90vh;
@@ -109,7 +110,8 @@ button:hover:active {
   right: 0.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  /* gap: 0.25rem; */
+  gap: 0.5rem;
   z-index: 10;
 }
 
@@ -153,7 +155,18 @@ button:hover:active {
   }
 
   .modal-box {
-      max-height: 75vh;
+    max-height: 75vh;
+  }
+
+  .bottom-right-buttons {
+    font-size: 1.1rem;
+    /* padding: 0.2rem; */
+    margin: 0.15rem;
+  }
+
+  .bottom-right-buttons button {
+    width: 35px;
+    height: 35px;
   }
 
 }

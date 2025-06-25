@@ -15,7 +15,7 @@ export default function BetControls({
 
     return (
         <div className="bet-controls">
-            <button onClick={() => clearBet()} disabled={playerBet === 0}>
+            <button className="vegas-button" onClick={() => clearBet()} disabled={playerBet === 0}>
                 Clear Bet
             </button>
             <div className="chips-row">
@@ -30,10 +30,10 @@ export default function BetControls({
                 ))}
             </div>
             <div className="chip-controls action_buttons">
-                <button onClick={() => reduceBet(selectedChip)} disabled={playerBet < selectedChip}>
+                <button className="bet-adjust-button" onClick={() => reduceBet(selectedChip)} disabled={playerBet < selectedChip}>
                     -
                 </button>
-                <button onClick={() => placeBet(selectedChip)} disabled={playerMoney < selectedChip}>
+                <button className="bet-adjust-button" onClick={() => placeBet(selectedChip)} disabled={playerMoney < selectedChip}>
                     +
                 </button>
             </div>

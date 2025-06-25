@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createShoe } from '../components/Shoe/Shoe';
 import { checkInitialBlackjack, evaluateHands } from '../utils/gameLogic';
 import { calculateHandValue, calculateWinLoss } from '../utils/helpers';
@@ -206,15 +206,15 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         setDeckCleared(true);
     }
 
-    // useEffect(() => {
-    //     if (gamePhase === 'gameOver') {
-    //         const timer = setTimeout(() => {
-    //             clearDeck()
-    //         }, 5000);
+    useEffect(() => {
+        if (gamePhase === 'gameOver') {
+            const timer = setTimeout(() => {
+                clearDeck()
+            }, 5000);
 
-    //         return () => clearTimeout(timer); // Clean up if phase changes early
-    //     }
-    // }, [gamePhase]);
+            return () => clearTimeout(timer); // Clean up if phase changes early
+        }
+    }, [gamePhase]);
 
     return {
         state: {
