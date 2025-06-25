@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { createShoe } from '../components/Shoe/Shoe';
 import { checkInitialBlackjack, evaluateHands } from '../utils/gameLogic';
 import { calculateHandValue, calculateWinLoss } from '../utils/helpers';
@@ -30,7 +30,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         updateCount
     } = useCardCounter();
 
-    const revealDealerCard = (show, dealerCard = null) => {
+    const revealDealerCard = useCallback((show, dealerCard = null) => {
         setShowDealerCard(show);
         if (show) {
             if (!dealerCard) {
@@ -38,7 +38,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
             }
             updateCount([dealerCard]);
         }
-    };
+    }, [updateCount, dealerHand]);
     
     const drawCard = (hideCount = false) => {
         const card = shoe.pop();
@@ -199,13 +199,13 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         setDeckCleared(false);
     };
 
-    const clearDeck = () => {
+    const clearDeck = useCallback(() => {
         setPlayerHands([{ cards: [], bet: 0 }]);
         setDealerHand([]);
         revealDealerCard(false);
         setDeckCleared(true);
         setResultMessage({ message: '' });
-    }
+    }, [revealDealerCard]);
 
     useEffect(() => {
         if (gamePhase === 'gameOver') {
@@ -215,7 +215,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
 
             return () => clearTimeout(timer); // Clean up if phase changes early
         }
-    }, [gamePhase]);
+    }, [gamePhase, clearDeck]);
 
     return {
         state: {
