@@ -11,7 +11,6 @@
 
 .player_bank_info {
   display: grid;
-  padding-top: 10px;
 }
 
 .fixed-card-area {
@@ -114,7 +113,8 @@
   }
 
   .current_bet {
-    padding: 10px;
+    font-size: 0.9rem;
+    /* padding: 10px; */
   }
 
   .hands h3,
@@ -135,6 +135,10 @@
 
   .vegas-button {
     font-size: 0.8rem;
+  }
+
+  .player_bank_info {
+    padding-top: 10px;
   }
 
 }
