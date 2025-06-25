@@ -92,58 +92,82 @@ caption {
 
 th,
 td {
-  border: 1px solid #444;
+  /* border: 1px solid #444; */
+  border: 1px solid gold;
   padding: 4px;
   text-align: center;
   word-wrap: break-word;
 }
 
 th {
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
+    /* background: radial-gradient(circle at center, #1b5e20, #0d3c16); */
+    background-color: #1a1a1a;
+  color: gold;
 }
 
-/* td {
-} */
+td {
+  background-color: #004225;
+  color: #fff;
+}
 
 /* Color coding */
 /* Hit - Red */
 .H {
-  background-color: #f88;
-  color: black;
+  /* background-color: #f88;
+  color: black; */
+  background-color: crimson;
+  color: #fff;
+  /* font-weight: bold; */
 }
 
 /* Stand - Yellow */
 .S {
-  background-color: #ff8;
-  color: black;
+  /* background-color: #ff8;
+  color: black; */
+  background-color: seagreen;
+    color: #fff;
+  /* font-weight: bold; */
+  
 }
 
 /* Double - Green */
 .D {
-  background-color: #8f8;
-  color: black;
+  /* background-color: #8f8;
+  color: black; */
+  background-color: goldenrod;
+  color: #fff;
+  /* font-weight: bold; */
+
 }
 
 /* Split - Blue */
 .P {
-  background-color: #88f;
-  color: black;
+  /* background-color: #88f;
+  color: black; */
+  background-color: darkorchid;
+  color: #fff;
+  /* font-weight: bold; */
 }
 
 .action-H {
-  color: #f88;
+  /* color: #f88; */
+  color: crimson;
 }
 
 .action-S {
-  color: #ff8;
+  /* color: #ff8; */
+  color: seagreen;
 }
 
 .action-D {
-  color: #8f8;
+  /* color: #8f8; */
+  color: goldenrod;
 }
 
 .action-P {
-  color: #88f;
+  /* color: #88f; */
+  color: darkorchid;
 }
 
 .book-navigation {

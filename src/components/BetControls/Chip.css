@@ -32,27 +32,80 @@ chip-button
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
   margin: 4px 0;
   color: white;
   user-select: none;
   border: 2px solid transparent;
+  /* background: radial-gradient(circle at center, #fff 30%, #bbb); */
+  border: 2px solid #555;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); */
+ box-shadow:
+    inset 0 0 4px rgba(255,255,255,0.4),
+    0 2px 6px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0 2px black;
+  transition: transform 0.2s ease;
+
+}
+
+.chip-circle::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border-radius: 50%;
+  border: 2px dashed white;
+  opacity: 0.5;
 }
 
 .chip-circle.selected {
-    border: 5px solid goldenrod;
-    box-shadow: 0 0 10px goldenrod;
-    transform: scale(1.1);
-    /* transition: transform 0.2s ease, box-shadow 0.2s ease; */
+  border: 5px solid goldenrod;
+  box-shadow: 0 0 10px goldenrod;
+  transform: scale(1.1);
+  /* transition: transform 0.2s ease, box-shadow 0.2s ease; */
 }
 
-.chip-1   { background-color: white; }
-.chip-5   { background-color: red; }
-.chip-10   { background-color: green; }
-.chip-25  { background-color: blue; }
-.chip-50   { background-color: slategrey }
-.chip-100 { background-color: black; }
-.chip-500 { background-color: darkmagenta; }
-.chip-1000 { background-color: gold; }
+/* .chip-1 {
+  background-color: white;
+}
+
+.chip-5 {
+  background-color: red;
+}
+
+.chip-10 {
+  background-color: green;
+}
+
+.chip-25 {
+  background-color: blue;
+}
+
+.chip-50 {
+  background-color: slategrey
+}
+
+.chip-100 {
+  background-color: black;
+}
+
+.chip-500 {
+  background-color: darkmagenta;
+}
+
+.chip-1000 {
+  background-color: gold;
+} */
+
+.chip-5    { background-color: #cc0000; }    /* Red */
+.chip-10   { background-color: #006400; }    /* Dark Green */
+.chip-25   { background-color: #0033cc; }    /* Royal Blue */
+.chip-50   { background-color: #4b0082; }    /* Indigo */
+.chip-100  { background-color: #000000; }    /* Black */
+.chip-500  { background-color: #8b0000; }    /* Dark Red */
+.chip-1000 { background-color: #ffd700; }    /* Gold */
 
 @media (max-width: 480px) {
   .chip-container {

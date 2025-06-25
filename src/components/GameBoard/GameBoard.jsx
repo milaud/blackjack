@@ -114,7 +114,7 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
                                 setSelectedChip={setSelectedChip}
                             />
                         )}
-                        <div>
+                        <div className="current_bet">
                             {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER) && <span>Current Bet: ${playerBet}</span>}
                         </div>
                         {gamePhase === GamePhases.GAME_OVER && !deckCleared && <button onClick={clearDeck}>Clear Deck</button>}

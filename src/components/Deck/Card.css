@@ -1,4 +1,4 @@
-.card {
+/* .card {
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -14,6 +14,108 @@
     font-size: 12px;
     text-align: center;
     flex-direction: column;
+} */
+
+/* .card {
+  width: 60px;
+  height: 90px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+  font-size: 1.4rem;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  margin: 0.25rem;
+} */
+
+.card-wrapper {
+  perspective: 600px;
+  width: 60px;
+  height: 90px;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-wrapper.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card {
+  width: 60px;
+  height: 90px;
+  background: white;
+  border: 1px solid #333;
+  border-radius: 6px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  padding: 4px;
+  box-sizing: border-box;
+  font-family: 'Georgia', serif;
+  backface-visibility: hidden;
+}
+
+.card-front {
+  background: white;
+  z-index: 2;
+}
+
+.card-back {
+  background: repeating-linear-gradient(45deg, navy, navy 2px, white 2px, white 4px);
+  color: white;
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-pattern {
+  font-size: 1.4em;
+  color: white;
+}
+
+.corner {
+  position: absolute;
+  font-size: 0.65em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.25;
+  font-weight: bold;
+}
+
+.top-left {
+  top: 3px;
+  left: 3px;
+}
+
+.bottom-right {
+  bottom: 3px;
+  right: 3px;
+  transform: rotate(180deg);
+}
+
+.suit {
+  font-size: 1.6em;
+  text-align: center;
+  line-height: 82px;
+}
+
+.red {
+  color: red;
+}
+
+.black {
+  color: black;
 }
 
 .card span {

@@ -3,6 +3,12 @@ hand
 hand_info
 */
 
+.hand_container {
+  display: inline-flex;
+  gap: 6px; /* optional: space between cards */
+  padding: 5px;
+}
+
 .hand_info {
   padding: 5px;
 }

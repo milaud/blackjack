@@ -1,0 +1,33 @@
+.message-banner {
+  background: linear-gradient(to right, #222, #333 30%, #222);
+  color: #ffd700;
+  /* font-size: 1.2rem; */
+  font-weight: bold;
+  /* padding: 1rem 2rem; */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  text-shadow: 1px 1px 3px black;
+  border: 2px solid #444;
+  margin: 0.5rem auto;
+  max-width: 600px;
+  text-align: center;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.message-win {
+  background: linear-gradient(to right, #0f0, #060);
+  color: white;
+}
+.message-loss {
+  background: linear-gradient(to right, #a00, #600);
+  color: white;
+}
+.message-push {
+  background: linear-gradient(to right, #999, #555);
+  color: white;
+}
+
+/* @keyframes pulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.9); }
+} */

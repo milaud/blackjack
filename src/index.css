@@ -6,6 +6,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  background: radial-gradient(circle at center, #1b5e20, #0d3c16);
+  color: #fff;
+  /* font-family: 'Georgia', serif; */
 }
 
 button {
@@ -45,13 +48,19 @@ button:hover:active {
 }
 
 .modal-box {
-  background-color: #fff;
+  /* background-color: #fff; */
+  background: radial-gradient(circle at center, #1b5e20, #0d3c16);
+  /* color: #fff; */
+  color: #f5f5dc;       /* ivory text for contrast */
+  border: 2px solid gold;
   max-width: 500px;
   max-height: 90vh;
   overflow-y: auto;
   border-radius: 12px;
   padding: 1.5rem 1rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  /* box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25); */
+  box-shadow: 0 0 20px gold;
+  font-family: 'Georgia', serif;
   position: relative;
   animation: fadeIn 0.3s ease-out;
   overflow-x: auto;
@@ -62,6 +71,7 @@ button:hover:active {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+  border-bottom: 1px solid gold;
 }
 
 .modal-header h2 {
@@ -74,11 +84,13 @@ button:hover:active {
 .close-button {
   font-size: 1.5rem;
   border: none;
-  background: none;
+  /* background: none; */
+  background: transparent;
   position: absolute;
   right: 1rem;
-  top: 1rem;
+  /* top: 1rem; */
   cursor: pointer;
+  color: gold;
 }
 
 .top-right-buttons {

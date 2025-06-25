@@ -54,7 +54,7 @@ export default function GameStats({ show, onClose, history }) {
                                     <td>{getResultIcon(hand.outcome)}</td>
                                     <td
                                         style={{
-                                            color: hand.net > 0 ? 'green' : hand.net < 0 ? 'red' : 'gray'
+                                            color: hand.net > 0 ? 'lightgreen' : hand.net < 0 ? 'red' : 'lightgray'
                                         }}
                                     >
                                         {hand.net > 0 ? '+' : ''}{hand.net}

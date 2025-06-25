@@ -1,17 +1,19 @@
+import './Message.css'
+
 export default function Message({ dictionary = { "message": "", "color": 0 } }) {
     let color = dictionary.color
     let message = dictionary.message
-    let resultColor = 'black'
+    let message_style = "message-push";
     if (color === 0) {
-        resultColor = 'black'
+        message_style = "message-push";
     } else if (color === 1) {
-        resultColor = 'green'
-    } else {
-        resultColor = 'red'
+       message_style = "message-win";
+    } else if (color === -1) {
+       message_style = "message-loss";
     }
     return (
-        <div>
-            {!message ? <h2 style={{ color: "black" }}>Blackjack</h2> : <h2 style={{ color: resultColor }}>{message}</h2>}
+        <div className={`message-banner ${!message ? "" : message_style}`}>
+            {!message ? <h2>Blackjack</h2> : <h2>{message}</h2>}
         </div>
     )
 }

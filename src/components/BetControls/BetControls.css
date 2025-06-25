@@ -4,20 +4,25 @@ chip-controls
 chips-row
 */
 
+.bet_controls {
+  padding: 5px;
+}
+
 .chips-row {
   display: flex;
   justify-content: center;
   margin: 8px;
 }
 
-/* @media (max-width: 480px) {
+@media (max-width: 480px) {
 
-.bet_controls {
-    margin-top: 4rem;
+  .bet_controls {
+    /* margin-top: 4rem; */
+    padding: 0px;
   }
 
-  .chips-row {
-    flex-wrap: wrap; 
+  /* .chips-row {
+    flex-wrap: wrap;
     row-gap: 0.25rem;
-  }
-} */
+  } */
+}
