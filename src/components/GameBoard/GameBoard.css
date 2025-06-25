@@ -48,14 +48,6 @@
   flex-wrap: wrap;
 }
 
-.hand {
-  display: flex;
-  flex-direction: column;
-  /* overflow: visible; */
-  /* gap: 1rem; */
-  /* padding-bottom: 6rem;  */
-  /* leave space for action buttons */
-}
 
 .vegas-button {
   background: linear-gradient(to bottom, #2f2f2f, #1c1c1c);
@@ -147,7 +139,6 @@
 game_info
 book_items
 bet_controls
-hands
 player_hands
 player_bank_info
 */

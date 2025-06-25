@@ -5,6 +5,7 @@ hand_info
 
 .hand {
   display: flex;
+  flex-direction: column;
   position: relative;
   padding-left: 10px; 
   padding-bottom: 1rem;

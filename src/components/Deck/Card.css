@@ -38,7 +38,8 @@
   height: 90px;
 
   position: relative;
-  margin-left: -40px;  /* controls overlap amount */
+  margin-left: -40px;
+  /* controls overlap amount */
   z-index: 1;
   transition: transform 0.3s ease;
 }
@@ -52,10 +53,10 @@
   z-index: 2;
 }
 
-.card-wrapper:hover {
+/* .card-wrapper:hover {
   transform: translateY(-15px) scale(1.05);
   z-index: 3;
-}
+} */
 
 .card-inner {
   width: 100%;
@@ -138,6 +139,13 @@
 }
 
 .card span {
-    display: block;
-    word-wrap: break-word;
+  display: block;
+  word-wrap: break-word;
+}
+
+@media (min-width: 768px) {
+  .card-wrapper:hover {
+    transform: translateY(-15px) scale(1.05);
+    z-index: 3;
+  }
 }
