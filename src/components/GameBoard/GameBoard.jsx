@@ -127,7 +127,7 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
                             {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER) && <span>Current Bet: ${playerBet}</span>}
                         </div>
                         {gamePhase === GamePhases.GAME_OVER && !deckCleared && <button className="vegas-button" onClick={clearDeck}>Clear Deck</button>}
-                        {(gamePhase === GamePhases.START || gamePhase === GamePhases.GAME_OVER)
+                        {(gamePhase === GamePhases.START || (deckCleared && gamePhase === GamePhases.GAME_OVER))
                             &&
                             <button className="vegas-button" onClick={handleDealClick} disabled={playerBet === 0}>Deal</button>}
                     </div>

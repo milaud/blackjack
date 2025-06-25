@@ -204,6 +204,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         setDealerHand([]);
         revealDealerCard(false);
         setDeckCleared(true);
+        setResultMessage({ message: '' });
     }
 
     useEffect(() => {

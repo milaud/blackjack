@@ -8,7 +8,9 @@ body {
   text-align: center;
   background: radial-gradient(circle at center, #1b5e20, #0d3c16);
   color: #fff;
-  /* font-family: 'Georgia', serif; */
+  min-height: 100vh;
+  min-width: 100vw;
+  font-family: 'Georgia', serif;
 }
 
 button {
