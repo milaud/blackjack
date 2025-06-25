@@ -138,8 +138,10 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
                                 <PlayerHand hand={dealerHand} isDealer={true} showDealerCard={!showDealerCard} />
                             </div>
                             <div className="player_section fixed-card-area">
-                                <h3>Player's Hand</h3>
-                                <p>Total Bets: ${playerBet}</p>
+                                <div className="player_section_header">
+                                    <h3>Player's Hand</h3>
+                                    <p>Total Bets: ${playerBet}</p>
+                                </div>
                                 <div className='player_hands'>
                                     {/* <div> */}
                                     {playerHands.map((hand, i) => (

@@ -7,7 +7,7 @@ Status: 0=playing/push, 1=win, -1=loss
 */
 export default function PlayerHand({ hand, bet, status = 0, activeHand = false, showDealerCard = false, isDealer = false }) {
   return (
-    <div className="hand" style={{ border: !isDealer && activeHand ? '2px solid blue' : 'none' }}>
+    <div className={`hand ${!isDealer && activeHand ? 'active' : ''}`}>
       <div className="hand_container">
         {hand.map((card, index) => (
         <Card

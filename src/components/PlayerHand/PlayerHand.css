@@ -3,6 +3,21 @@ hand
 hand_info
 */
 
+.hand {
+  display: flex;
+  position: relative;
+  padding-left: 10px; 
+  padding-bottom: 1rem;
+}
+
+.hand.active {
+  border: 3px solid dodgerblue;
+  border-radius: 8px;
+  padding: 10px;
+  /* margin-top: 4px; */
+  box-sizing: border-box;
+}
+
 .hand_container {
   display: inline-flex;
   gap: 6px; /* optional: space between cards */
