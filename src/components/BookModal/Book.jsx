@@ -40,12 +40,17 @@ const StrategySection = ({ title, data, rowLabelPrefix, customOrder }) => {
 const Legend = () => (
     <div className="legend">
         <h3>Legend</h3>
-        <ul>
-            <li><span className="legend-box H">H</span> = Hit</li>
-            <li><span className="legend-box S">S</span> = Stand</li>
-            <li><span className="legend-box D">D</span> = Double (if allowed, else Hit)</li>
-            <li><span className="legend-box P">P</span> = Split</li>
-        </ul>
+        <div>
+            <ul>
+                <li><span className="legend-box H">H</span> = Hit</li>
+                <li><span className="legend-box S">S</span> = Stand</li>
+                <li><span className="legend-box P">P</span> = Split</li>
+            </ul>
+            <ul>
+                <li><span className="legend-box D">D</span> = Double (else Hit)</li>
+                <li><span className="legend-box D">DS</span> = Double (else Stand)</li>
+            </ul>
+        </div>
     </div>
 );
 
@@ -62,7 +67,7 @@ const BlackjackTable = ({ cards, initialIndex = 0 }) => {
 
     const softOrder = Object.keys(basicStrategyTable.soft).sort((a, b) => {
         const parse = v => {
-            if (v === 'A,19+') return 100; // Put at end
+            if (v === 'A,20+') return 100; // Put at end
             return parseInt(v);
         };
         return parse(a) - parse(b);

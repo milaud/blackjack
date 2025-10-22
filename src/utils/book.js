@@ -6,10 +6,10 @@ export const basicStrategyTable = {
     // Values: suggested action (H=Hit, S=Stand, D=Double if allowed else Hit, P=Split)
     hard: {
         '≤ 7': ['H','H','H','H','H','H','H','H','H','H'],
-        8: ['H', 'H', 'H', 'D', 'D', 'H', 'H', 'H', 'H', 'H'],
-        9: ['D', 'D', 'D', 'D', 'D', 'H', 'H', 'H', 'H', 'H'],
+        8: ['H', 'H', 'H', 'H', 'H', 'H', 'H', 'H', 'H', 'H'],
+        9: ['H', 'D', 'D', 'D', 'D', 'H', 'H', 'H', 'H', 'H'],
         10: ['D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'H', 'H'],
-        11: ['D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'H'],
+        11: ['D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D'],
         12: ['H', 'H', 'S', 'S', 'S', 'H', 'H', 'H', 'H', 'H'],
         13: ['S', 'S', 'S', 'S', 'S', 'H', 'H', 'H', 'H', 'H'],
         14: ['S', 'S', 'S', 'S', 'S', 'H', 'H', 'H', 'H', 'H'],
@@ -25,8 +25,9 @@ export const basicStrategyTable = {
         15: ['H', 'H', 'D', 'D', 'D', 'H', 'H', 'H', 'H', 'H'], // A,4
         16: ['H', 'H', 'D', 'D', 'D', 'H', 'H', 'H', 'H', 'H'], // A,5
         17: ['H', 'D', 'D', 'D', 'D', 'H', 'H', 'H', 'H', 'H'], // A,6
-        18: ['S', 'D', 'D', 'D', 'D', 'S', 'S', 'H', 'H', 'H'], // A,7
-        "19+": ['S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S'], // A,8
+        18: ['DS', 'DS', 'DS', 'DS', 'DS', 'S', 'S', 'H', 'H', 'H'], // A,7
+        19: ['S', 'S', 'S', 'S', 'DS', 'S', 'S', 'S', 'S', 'S'], // A,8
+        "20+": ['S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S'], // A,9+
     },
 
     // Pairs
@@ -36,7 +37,7 @@ export const basicStrategyTable = {
         4: ['H', 'H', 'H', 'P', 'P', 'H', 'H', 'H', 'H', 'H'], // Pair of 4s
         5: ['D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'H', 'H'], // Pair of 5s (treat as 10)
         6: ['P', 'P', 'P', 'P', 'P', 'H', 'H', 'H', 'H', 'H'], // Pair of 6s
-        7: ['P', 'P', 'P', 'P', 'P', 'P', 'H', 'H', 'S', 'H'], // Pair of 7s
+        7: ['P', 'P', 'P', 'P', 'P', 'P', 'H', 'H', 'H', 'H'], // Pair of 7s
         8: ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'], // Pair of 8s
         9: ['P', 'P', 'P', 'P', 'P', 'S', 'P', 'P', 'S', 'S'], // Pair of 9s
         10: ['S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S'], // Pair of 10s
@@ -107,6 +108,7 @@ function actionName(letter) {
         case 'H': return 'Hit';
         case 'S': return 'Stand';
         case 'D': return 'Double Down if allowed, otherwise Hit';
+        case 'DS': return 'Double Down if allowed, otherwise Stand';
         case 'P': return 'Split';
         default: return 'Unknown action';
     }
