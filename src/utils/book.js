@@ -82,8 +82,8 @@ export function getBlackjackStrategy(dealerCard, playerCards) {
     if (containsAce && handTotal <= 21 && getHandDisplay(playerCards).includes("/")) {
         // Soft total
         let softRow;
-        if (handTotal >= 19) {
-            softRow = basicStrategyTable.soft["19+"];
+        if (handTotal >= 20) {
+            softRow = basicStrategyTable.soft["20+"];
         } else {
             softRow = basicStrategyTable.soft[handTotal];
         }
