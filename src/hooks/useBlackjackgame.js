@@ -130,10 +130,15 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
             return;
         }
         setGamePhase(GamePhases.DEALER_TURN);
+        await delay(duration);
         revealDealerCard(true);
         let newDealerHand = [...dealerHand];
 
-        while (calculateHandValue(newDealerHand) < 17) {
+        const nonBustedPlayerHands = playerHands.reduce((count, hand) => {
+            return count + (calculateHandValue(hand.cards) <= 21 ? 1 : 0);
+        }, 0);
+
+        while (nonBustedPlayerHands > 0 && calculateHandValue(newDealerHand) < 17) {
             await delay(duration);
             const card = drawCard();
             newDealerHand.push(card);
