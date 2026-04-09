@@ -1,6 +1,7 @@
 // import bookImage from './book.png'
 import './Book.css';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { getHandDisplay, calculateHandValue } from '../../utils/helpers';
 import { basicStrategyTable, getBlackjackStrategy } from '../../utils/book';
 
@@ -134,7 +135,9 @@ export default function Book({ show, cards = null, onClose }) {
                 /> */}
 
                 <BlackjackTable cards={cards.player} initialIndex={initialIndex} />
-
+                <Link to="/blackjack/memorize-strategy" target="_blank" className="strategy-link">
+                    Memorize Basic Strategy →
+                </Link>
             </div>
         </div>
     );

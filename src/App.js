@@ -1,10 +1,13 @@
 import './App.css';
 import { useState } from 'react';
 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import GameBoard from './components/GameBoard/GameBoard';
 import Settings from './components/Settings/Settings';
+import MemorizeStrategy from './components/MemorizeStrategy/MemorizeStrategy';
+import Trainer from './components/MemorizeStrategy/Trainer';
 
-function App() {
+function GamePage() {
   const [gameKey, setGameKey] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
   const [numberOfDecks, setNumberOfDecks] = useState(6);
@@ -29,6 +32,18 @@ function App() {
       <GameBoard key={gameKey} numberOfDecks={numberOfDecks} startingMoney={buyInAmount} />
     </div>
   );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/blackjack" element={<GamePage />} />
+        <Route path="/blackjack/memorize-strategy" element={<MemorizeStrategy />} />
+        <Route path="/blackjack/strategy-trainer" element={<Trainer />} />
+      </Routes>
+    </Router>
+  )
 }
 
 export default App;
