@@ -1,7 +1,7 @@
 import './App.css';
 import { useState } from 'react';
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import GameBoard from './components/GameBoard/GameBoard';
 import Settings from './components/Settings/Settings';
 import MemorizeStrategy from './components/MemorizeStrategy/MemorizeStrategy';
@@ -38,9 +38,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/blackjack" element={<GamePage />} />
-        <Route path="/blackjack/memorize-strategy" element={<MemorizeStrategy />} />
-        <Route path="/blackjack/strategy-trainer" element={<Trainer />} />
+        <Route path="/" element={<GamePage />} />
+        <Route path="/memorize-strategy" element={<MemorizeStrategy />} />
+        <Route path="/strategy-trainer" element={<Trainer />} />
       </Routes>
     </Router>
   )

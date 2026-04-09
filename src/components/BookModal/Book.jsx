@@ -135,9 +135,14 @@ export default function Book({ show, cards = null, onClose }) {
                 /> */}
 
                 <BlackjackTable cards={cards.player} initialIndex={initialIndex} />
-                <Link to="/blackjack/memorize-strategy" target="_blank" className="strategy-link">
-                    Memorize Basic Strategy →
-                </Link>
+                <div className='links'>
+                    <Link to="/memorize-strategy" target="_blank" className="strategy-link">
+                        Memorize Basic Strategy →
+                    </Link>
+                    <Link to="/strategy-trainer" target="_blank" className="strategy-link">
+                        Train Basic Strategy →
+                    </Link>
+                </div>
             </div>
         </div>
     );

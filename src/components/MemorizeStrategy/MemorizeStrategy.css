@@ -12,6 +12,22 @@ ul {
     margin: 0;
 }
 
+
+.strategy-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: gold;
+  text-decoration: none;
+  font-weight: bold;
+  border-bottom: 1px solid gold;
+}
+
+.strategy-link:hover {
+  color: #ffd700;
+  text-shadow: 0 0 5px gold;
+}
+
+
 .back-link {
   display: inline-block;
   margin-top: 2rem;

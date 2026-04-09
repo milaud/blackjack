@@ -129,21 +129,6 @@ button:hover:active {
   padding: 0;
 }
 
-.strategy-link {
-  display: inline-block;
-  margin-top: 1rem;
-  color: gold;
-  text-decoration: none;
-  font-weight: bold;
-  border-bottom: 1px solid gold;
-}
-
-.strategy-link:hover {
-  color: #ffd700;
-  text-shadow: 0 0 5px gold;
-}
-
-
 /* Tablet screens */
 @media (max-width: 768px) {
   button {

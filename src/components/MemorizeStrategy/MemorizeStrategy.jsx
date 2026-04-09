@@ -44,7 +44,7 @@ export default function MemorizeStrategy() {
                 <li>8 and below: Hit</li>
             </ul>
 
-             <Link to="/blackjack/strategy-trainer" className="strategy-link">
+             <Link to="/strategy-trainer" className="strategy-link">
                 Train Basic Strategy
             </Link>
         </div>

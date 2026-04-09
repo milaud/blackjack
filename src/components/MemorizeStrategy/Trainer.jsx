@@ -100,10 +100,10 @@ export default function Trainer() {
                 🔥 Streak: {streak}
             </div> */}
             <div className='links'>
-                <Link to="/blackjack/memorize-strategy" className="back-link">
+                <Link to="/memorize-strategy" className="back-link">
                     ← Back to Strategy
                 </Link>
-                <Link to="/blackjack" target="_blank" className="strategy-link">
+                <Link to="/" target="_blank" className="strategy-link">
                     Play Blackjack →
                 </Link>
 
