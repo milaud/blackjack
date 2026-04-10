@@ -3,7 +3,7 @@ import Card from '../Deck/Card';
 import { getHandDisplay } from '../../utils/helpers';
 
 /*
-Status: 0=playing/push, 1=win, -1=loss
+Status: 0=playing/push, 1=win, -1=loss, 0.5=surrender
 */
 export default function PlayerHand({ hand, bet, status = 0, activeHand = false, showDealerCard = false, isDealer = false }) {
   return (

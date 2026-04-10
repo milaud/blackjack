@@ -50,6 +50,7 @@ const Legend = () => (
             <ul>
                 <li><span className="legend-box D">D</span> = Double (else Hit)</li>
                 <li><span className="legend-box D">DS</span> = Double (else Stand)</li>
+                <li><span className="legend-box SR">SR</span> = Surrender (else Hit)</li>
             </ul>
         </div>
     </div>

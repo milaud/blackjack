@@ -65,6 +65,9 @@ export function calculateResultAmount(playerHands) {
       // blackjack
       const bonus = hand.bet * 0.5;
       amountWon += (hand.bet * 2) + bonus;
+    } else if (hand.status === 0.5) {
+      // surrender
+      amountWon += (hand.bet * 0.5);
     }
   });
   return amountWon;
@@ -82,6 +85,10 @@ export function calculateWinLoss(playerHands) {
         break;
       case 0:
         // no gain or loss
+        break;
+      case 0.5:
+        // surrender
+        total += Math.floor(0.5 * hand.bet)
         break;
       case -1:
       default:

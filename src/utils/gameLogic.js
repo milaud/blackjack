@@ -31,7 +31,7 @@ export function checkInitialBlackjack(playerHandObj, dealerHand) {
     };
 }
 
-export function evaluateHands(playerHands, dealerHand) {
+export function evaluateHands(playerHands, dealerHand, surrendered=false) {
     const dealerTotal = calculateHandValue(dealerHand);
     let playerWinCount = 0;
     let dealerWinCount = 0;
@@ -39,7 +39,11 @@ export function evaluateHands(playerHands, dealerHand) {
     const updatedHands = playerHands.map(hand => {
         const total = calculateHandValue(hand.cards);
         let status;
-        if (total > 21) {
+        // NOTE: we should only have one hand if we surrender
+        if (surrendered) {
+            status = 0.5;
+            dealerWinCount++;
+        } else if (total > 21) {
             status = -1;
             dealerWinCount++;
         } else if (dealerTotal > 21 || total > dealerTotal) {
@@ -56,7 +60,9 @@ export function evaluateHands(playerHands, dealerHand) {
     });
 
     let result = {};
-    if (playerWinCount > 0 && dealerWinCount > 0) {
+    if (surrendered) {
+        result = { message: 'Surrendered. Half bet returned.', color: 0 };
+    } else if (playerWinCount > 0 && dealerWinCount > 0) {
         result = { message: 'Some hands won, some lost!', color: 0 };
     } else if (playerWinCount > 0) {
         result = { message: 'Player wins!', color: 1 };

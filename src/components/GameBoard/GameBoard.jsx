@@ -54,12 +54,14 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
             stand,
             doubleDown,
             handleSplit,
+            surrender,
             resetHands,
             clearDeck
         },
         flags: {
             canSplit,
-            canDoubleDown
+            canDoubleDown,
+            canSurrender
         },
         setters: {
             setCountCards,
@@ -157,6 +159,7 @@ export default function GameBoard({ numberOfDecks, startingMoney }) {
                             {canDoubleDown && <button id="double_down" className="vegas-button" onClick={doubleDown}>{isMobile ? '2x' : 'Double Down'}</button>}
                             {canSplit && <button className="vegas-button" onClick={handleSplit}>Split</button>}
                             <button className="vegas-button" onClick={stand}>Stand</button>
+                            {canSurrender && <button className="vegas-button" onClick={surrender}>Surrender</button>}
                         </div>
                     )}
                 </div>

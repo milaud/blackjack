@@ -10,6 +10,7 @@ export default function GameStats({ show, onClose, history }) {
             case 1.5: return '💰';
             case -1: return '❌';
             case 0: return '🤝';
+            case 0.5: return '🏳️';
             // case 'mixed': return '🟡';
             default: return '❓';
         }

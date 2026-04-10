@@ -39,7 +39,7 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
             updateCount([dealerCard]);
         }
     }, [updateCount, dealerHand]);
-    
+
     const drawCard = (hideCount = false) => {
         const card = shoe.pop();
         if (!hideCount) updateCount([card]);
@@ -195,6 +195,63 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
         setPlayerHands(hands);
     };
 
+    const canSurrender = () => {
+        if (gamePhase !== GamePhases.PLAYER_TURN) return false;
+        // return playerHands[activeHandIndex].cards.length === 2; // TODO: can you surrender after split/multiple hands?
+        return activeHandIndex === 0 && playerHands.length === 1 && playerHands[activeHandIndex].cards.length === 2;
+    };
+
+    const surrender = async () => {
+        if (!canSurrender()) return;
+
+        // No more hands — go straight to game over
+        setGamePhase(GamePhases.GAME_OVER);
+        await delay(duration);
+        revealDealerCard(true);
+        let newDealerHand = [...dealerHand];
+        await delay(duration);
+
+        // TODO: this is somewhat duplicated with Stand function, should decouple these
+        const outcome = evaluateHands(playerHands, newDealerHand, true);
+        setPlayerHands(outcome.updatedHands);
+        setResultMessage(outcome.result);
+        resolveBet(outcome.updatedHands);
+        const newGameResult = {
+            playerHands: outcome.updatedHands.map(h => ({
+                cards: h.cards,
+                bet: h.bet,
+                outcome: h.status,
+                net: -calculateWinLoss([h]),
+            })),
+            dealerHand: newDealerHand,
+        }
+        setGameHistory(prev => [
+            ...prev, newGameResult
+        ]);
+
+        // const newGameResult = {
+        //     playerHands: newHands.map(h => ({
+        //         cards: h.cards,
+        //         bet: h.bet,
+        //         outcome: h.status,
+        //         net: calculateWinLoss([h]),
+        //     })),
+        //     dealerHand: newDealerHand,
+        // };
+        // setGameHistory(prev => [...prev, newGameResult]);
+
+        // TODO: this is also in Stand function, should move this to a cleanup function that runs after every hand
+        if (shoe.length < 0.4 * 52 * numberOfDecks) {
+            setResultMessage({ message: outcome.result.message + ' Reshuffling shoe...', color: 0 });
+            await delay(3000);
+            const newShoe = createShoe(numberOfDecks);
+            setRunningCount(0);
+            setResultMessage({ message: '', color: 0 });
+            setShoe(newShoe);
+            // setCutCardIndex(newShoe.length - Math.floor(newShoe.length * (0.7 + Math.random() * 0.15)))
+        }
+    };
+
     const resetHands = () => {
         setPlayerHands([{ cards: [], bet: 0 }]);
         setDealerHand([]);
@@ -244,12 +301,14 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
             stand,
             doubleDown,
             handleSplit,
+            surrender,
             resetHands,
             clearDeck
         },
         flags: {
             canSplit: canSplit(),
-            canDoubleDown: canDoubleDown()
+            canDoubleDown: canDoubleDown(),
+            canSurrender: canSurrender()
         },
         setters: {
             setCountCards,
@@ -259,32 +318,32 @@ export default function useBlackjackGame(numberOfDecks, playerMoney, resolveBet,
     };
 }
 
- /*
-    const updateBet = (index, newBet) => {
-        setPlayerHands(hands => {
-            hands.map((hand, i) => {
-                // this copies over the previous object (cards, bet, etc..), and then we overwrite bet
-                i === index ? {...hand.cards, bet: newBet } : hand
-            })
-        })
-    }
+/*
+   const updateBet = (index, newBet) => {
+       setPlayerHands(hands => {
+           hands.map((hand, i) => {
+               // this copies over the previous object (cards, bet, etc..), and then we overwrite bet
+               i === index ? {...hand.cards, bet: newBet } : hand
+           })
+       })
+   }
 
-    const updateStatus = (index, newStatus) => {
-        setPlayerHands(hands => {
-            hands.map((hand, i) => {
-                // this copies over the previous object (cards, bet, etc..), and then we overwrite status
-                i === index ? {...hand.cards, status: newStatus } : hand
-            })
-        })
-    }
+   const updateStatus = (index, newStatus) => {
+       setPlayerHands(hands => {
+           hands.map((hand, i) => {
+               // this copies over the previous object (cards, bet, etc..), and then we overwrite status
+               i === index ? {...hand.cards, status: newStatus } : hand
+           })
+       })
+   }
 
-    // combine the above two?
-    // updatePlayerHand(0, { bet: 100, status: 1 });
-    const updatePlayerHand = (index, updates) => {
-        setPlayerHands(prev =>
-            prev.map((player, i) =>
-                i === index ? { ...player, ...updates } : player
-            )
-        );
-    };
-    */
+   // combine the above two?
+   // updatePlayerHand(0, { bet: 100, status: 1 });
+   const updatePlayerHand = (index, updates) => {
+       setPlayerHands(prev =>
+           prev.map((player, i) =>
+               i === index ? { ...player, ...updates } : player
+           )
+       );
+   };
+   */

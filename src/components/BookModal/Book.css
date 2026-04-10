@@ -152,6 +152,11 @@ td {
   /* font-weight: bold; */
 }
 
+.SR {
+  background-color: rgb(255, 119, 0);
+  color: #fff;
+}
+
 .action-H {
   /* color: #f88; */
   color: crimson;

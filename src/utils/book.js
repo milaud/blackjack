@@ -13,8 +13,8 @@ export const basicStrategyTable = {
         12: ['H', 'H', 'S', 'S', 'S', 'H', 'H', 'H', 'H', 'H'],
         13: ['S', 'S', 'S', 'S', 'S', 'H', 'H', 'H', 'H', 'H'],
         14: ['S', 'S', 'S', 'S', 'S', 'H', 'H', 'H', 'H', 'H'],
-        15: ['S', 'S', 'S', 'S', 'S', 'H', 'H', 'H', 'H', 'H'],
-        16: ['S', 'S', 'S', 'S', 'S', 'H', 'H', 'H', 'H', 'H'],
+        15: ['S', 'S', 'S', 'S', 'S', 'H', 'H', 'H', 'SR', 'H'],
+        16: ['S', 'S', 'S', 'S', 'S', 'H', 'H', 'SR', 'SR', 'SR'],
         "17+": ['S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S'],
     },
 
@@ -110,6 +110,7 @@ function actionName(letter) {
         case 'D': return 'Double Down if allowed, otherwise Hit';
         case 'DS': return 'Double Down if allowed, otherwise Stand';
         case 'P': return 'Split';
+        case 'SR': return 'Surrender if allowed, otherwise Hit';
         default: return 'Unknown action';
     }
 }
