@@ -6,13 +6,31 @@
     border-radius: 12px;
     width: 400px;
     margin: 20px auto;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     text-align: center;
 }
 
 .trainer-container h1 {
     margin-bottom: 15px;
     text-shadow: 1px 1px 3px #000;
+}
+
+.total-toggle {
+    background-color: grey;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
+.total-toggle.active {
+    background-color: #1b8c1b;
+    border: 2px solid gold;
 }
 
 
@@ -76,6 +94,7 @@
     text-shadow: 1px 1px 2px #000;
 }
 
+
 .scoreboard {
     margin-top: 15px;
     font-size: 1rem;
@@ -83,9 +102,21 @@
     font-weight: bold;
 }
 
+.reset-button {
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
 .links {
     display: flex;
     flex-direction: column;
+
     a {
         border-bottom: none;
     }
