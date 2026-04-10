@@ -1,7 +1,15 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import "./MemorizeStrategy.css";
 
 export default function MemorizeStrategy() {
+    useEffect(() => {
+        document.body.style.overflow = "visible";
+        return () => {
+            document.body.style.overflow = "hidden"; // restore on leave
+        };
+    }, []);
+
     return (
         <div className="strategy-page">
             <h1>Blackjack Strategy Basics</h1>
@@ -44,7 +52,7 @@ export default function MemorizeStrategy() {
                 <li>8 and below: Hit</li>
             </ul>
 
-             <Link to="/strategy-trainer" className="strategy-link">
+            <Link to="/strategy-trainer" className="strategy-link">
                 Train Basic Strategy
             </Link>
         </div>
