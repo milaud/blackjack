@@ -27,7 +27,7 @@ function generateHardHand(shoe) {
     const nonAces = shoe.filter(c => c.value !== 'A');
     const card1 = nonAces[Math.floor(Math.random() * nonAces.length)];
     let card2 = nonAces[Math.floor(Math.random() * nonAces.length)];
-    while (card1.value == card2.value || calculateHandValue([card1, card2]) >= 20) {
+    while (card1.value === card2.value || calculateHandValue([card1, card2]) >= 20) {
         card2 = nonAces[Math.floor(Math.random() * nonAces.length)];
     }
     return [card1, card2];
@@ -117,7 +117,7 @@ export default function Trainer() {
             </div>
 
             {!started ? (
-                <button className="start-button" onClick={start}>
+                <button className="option-button" onClick={start}>
                     Start
                 </button>
             ) : (

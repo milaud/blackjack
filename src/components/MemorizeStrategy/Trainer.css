@@ -4,10 +4,11 @@
     color: #fff;
     padding: 20px;
     border-radius: 12px;
-    width: 400px;
+    width: min(400px, 100%);
     margin: 20px auto;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     text-align: center;
+    box-sizing: border-box;
 }
 
 .trainer-container h1 {
